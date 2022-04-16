@@ -11,13 +11,6 @@
 
     <artifactId>common</artifactId>
 
-    <packaging>jar</packaging>
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -33,6 +26,7 @@
         <plugins>
 <!--            Вроде оба плагина - maven-surefire-plugin и maven-failsafe-plugin являются стандартными,-->
 <!--            но почему-то если я не переопределяю тут failsafe плагин, IT тесты не запускаются...-->
+<!--            Если они в super pom - тогда они входят в стандартные плагины и их переопределять не нужно -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>

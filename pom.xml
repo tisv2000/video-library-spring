@@ -16,7 +16,8 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <junit.version>4.13.2</junit.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.8.2</junit.version>
         <lombok.version>1.18.22</lombok.version>
 
         <resources.plugin.version>3.2.0</resources.plugin.version>
@@ -34,8 +35,8 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
@@ -110,7 +111,7 @@
                             <goals>
                                 <goal>report</goal>
                             </goals>
-                            <phase>prepare-package</phase>
+                            <phase>verify</phase>
                         </execution>
                     </executions>
                 </plugin>
