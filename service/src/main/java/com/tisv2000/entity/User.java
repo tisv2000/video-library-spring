@@ -19,14 +19,19 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
     @Convert(converter = BirthdayConvertor.class)
     @Column(name = "birth_date")
     private LocalDate birthdate;
+
+    private String name;
     private String password;
     private String email;
-    @Enumerated(EnumType.STRING)
-    private Role role;
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+
 }

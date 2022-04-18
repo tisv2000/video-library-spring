@@ -17,11 +17,13 @@ public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Enumerated(EnumType.STRING)
+    private Genre genre;
+
     private String title;
     private Integer year;
     private String country;
-    @Enumerated(EnumType.STRING)
-    private Genre genre;
     private String image;
     private String description;
 }
