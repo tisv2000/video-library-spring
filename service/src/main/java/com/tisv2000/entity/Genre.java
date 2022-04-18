@@ -1,0 +1,13 @@
+package com.tisv2000.entity;
+
+public enum Genre {
+    FANTASY,
+    FICTION,
+    ACTION,
+    SCIENCE_FICTION,
+    THRILLER,
+    DRAMA,
+    ROMANCE,
+    ADVENTURE,
+    MUSICAL
+}

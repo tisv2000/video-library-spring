@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/video_library_2</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">postgres</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+
+        <!--    Какой вариант все-таки предпочтительнее - через hibernate config или класс Configuration?-->
+        <mapping class="com.tisv2000.entity.Movie"/>
+        <mapping class="com.tisv2000.entity.MoviePerson"/>
+        <mapping class="com.tisv2000.entity.Person"/>
+        <mapping class="com.tisv2000.entity.Review"/>
+        <mapping class="com.tisv2000.entity.User"/>
+    </session-factory>
+</hibernate-configuration>
