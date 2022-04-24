@@ -2,8 +2,10 @@
 //
 //import com.tisv2000.util.HibernateUtil;
 //import lombok.SneakyThrows;
+//import org.hibernate.FlushMode;
 //import org.hibernate.Session;
 //import org.hibernate.SessionFactory;
+//import org.hibernate.jpa.QueryHints;
 //import org.junit.jupiter.api.BeforeEach;
 //
 //public abstract class IntegrationTestBase {
@@ -36,8 +38,7 @@
 //            Session session = sessionFactory.openSession();
 //            session.beginTransaction();
 //
-////            Не получилось использовать этот класс:(( Почему-то он пытается создать все таблицы и падает с ошибкой...
-//            session.createQuery(CLEAN_SQL);
+////            session.createQuery(CLEAN_SQL).setHint(QueryHints.HINT_FLUSH_MODE, FlushMode.COMMIT);
 //            session.createQuery(CREATE_SQL);
 //            session.createQuery(INSERT_SQL);
 //

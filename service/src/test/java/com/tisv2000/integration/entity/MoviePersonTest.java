@@ -6,15 +6,17 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 
+import static com.tisv2000.testUtils.TestUtil.getMovie;
+import static com.tisv2000.testUtils.TestUtil.getPerson;
 import static com.tisv2000.util.HibernateUtil.buildSessionFactory;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MoviePersonTest {
 
     @Test
-    public void saveAndGetMoviePerson() {
-        Movie movie = TestUtil.movie;
-        Person person = TestUtil.person;
+    void saveAndGetMoviePerson() {
+        Movie movie = getMovie();
+        Person person = getPerson();
         MoviePerson moviePerson = TestUtil.getMoviePerson(movie, person);
 
         try (SessionFactory sessionFactory = buildSessionFactory()) {
@@ -38,9 +40,9 @@ class MoviePersonTest {
     }
 
     @Test
-    public void updateMoviePerson() {
-        Movie movie = TestUtil.movie;
-        Person person = TestUtil.person;
+    void updateMoviePerson() {
+        Movie movie = getMovie();
+        Person person = getPerson();
         MoviePerson moviePerson = TestUtil.getMoviePerson(movie, person);
         var updatedPersonRole = PersonRole.DIRECTOR;
 
@@ -68,9 +70,9 @@ class MoviePersonTest {
     }
 
     @Test
-    public void deleteMoviePerson() {
-        Movie movie = TestUtil.movie;
-        Person person = TestUtil.person;
+    void deleteMoviePerson() {
+        Movie movie = getMovie();
+        Person person = getPerson();
         MoviePerson moviePerson = TestUtil.getMoviePerson(movie, person);
 
         try (SessionFactory sessionFactory = buildSessionFactory()) {

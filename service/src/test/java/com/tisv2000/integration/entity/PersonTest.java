@@ -6,14 +6,15 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 
+import static com.tisv2000.testUtils.TestUtil.getPerson;
 import static com.tisv2000.util.HibernateUtil.buildSessionFactory;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PersonTest {
 
     @Test
-    public void saveAndGetPerson() {
-        Person person = TestUtil.person;
+    void saveAndGetPerson() {
+        Person person = getPerson();
 
         try (SessionFactory sessionFactory = buildSessionFactory()) {
             Session session = sessionFactory.openSession();
@@ -34,8 +35,8 @@ class PersonTest {
     }
 
     @Test
-    public void updatePerson() {
-        Person person = TestUtil.person;
+    void updatePerson() {
+        Person person = getPerson();
         var updatedName = "Better name";
 
         try (SessionFactory sessionFactory = buildSessionFactory()) {
@@ -60,8 +61,8 @@ class PersonTest {
     }
 
     @Test
-    public void deletePerson() {
-        Person person = TestUtil.person;
+    void deletePerson() {
+        Person person = getPerson();
 
         try (SessionFactory sessionFactory = buildSessionFactory()) {
             Session session = sessionFactory.openSession();

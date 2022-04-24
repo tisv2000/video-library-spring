@@ -6,14 +6,15 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 
+import static com.tisv2000.testUtils.TestUtil.getMovie;
 import static com.tisv2000.util.HibernateUtil.buildSessionFactory;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MovieTest {
 
     @Test
-    public void saveAndGetMovie() {
-        Movie movie = TestUtil.movie;
+    void saveAndGetMovie() {
+        Movie movie = getMovie();
 
         try (SessionFactory sessionFactory = buildSessionFactory()) {
             Session session = sessionFactory.openSession();
@@ -35,8 +36,8 @@ class MovieTest {
     }
 
     @Test
-    public void updateMovie() {
-        Movie movie = TestUtil.movie;
+    void updateMovie() {
+        Movie movie = getMovie();
         var updatedTitle = "Better title";
 
         try (SessionFactory sessionFactory = buildSessionFactory()) {
@@ -61,8 +62,8 @@ class MovieTest {
     }
 
     @Test
-    public void deleteMovie() {
-        Movie movie = TestUtil.movie;
+    void deleteMovie() {
+        Movie movie = getMovie();
 
         try (SessionFactory sessionFactory = buildSessionFactory()) {
             Session session = sessionFactory.openSession();

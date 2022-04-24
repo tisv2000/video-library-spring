@@ -1,6 +1,5 @@
 package com.tisv2000.entity;
 
-import com.tisv2000.converter.BirthdayConvertor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +25,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Convert(converter = BirthdayConvertor.class)
     @Column(name = "birth_date")
     private LocalDate birthdate;
 

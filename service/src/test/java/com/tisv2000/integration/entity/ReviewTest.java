@@ -8,15 +8,17 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 
+import static com.tisv2000.testUtils.TestUtil.getMovie;
+import static com.tisv2000.testUtils.TestUtil.getUser;
 import static com.tisv2000.util.HibernateUtil.buildSessionFactory;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ReviewTest {
 
     @Test
-    public void saveAndGetReview() {
-        Movie movie = TestUtil.movie;
-        User user = TestUtil.user;
+    void saveAndGetReview() {
+        Movie movie = getMovie();
+        User user = getUser();
         Review review = TestUtil.getReview(user, movie);
 
         try (SessionFactory sessionFactory = buildSessionFactory()) {
@@ -41,9 +43,9 @@ class ReviewTest {
     }
 
     @Test
-    public void updateReview() {
-        Movie movie = TestUtil.movie;
-        User user = TestUtil.user;
+    void updateReview() {
+        Movie movie = getMovie();
+        User user = getUser();
         Review review = TestUtil.getReview(user, movie);
         var updatedRate = 10;
 
@@ -62,7 +64,6 @@ class ReviewTest {
                 session.flush();
                 session.evict(review);
 
-                // действительно ли LAZY fetch ускоряет отправку запроса?
                 Review updatedReview = session.get(Review.class, review.getId());
 
                 assertThat(updatedReview.getRate()).isEqualTo(updatedRate);
@@ -73,9 +74,9 @@ class ReviewTest {
     }
 
     @Test
-    public void deleteReview() {
-        Movie movie = TestUtil.movie;
-        User user = TestUtil.user;
+    void deleteReview() {
+        Movie movie = getMovie();
+        User user = getUser();
         Review review = TestUtil.getReview(user, movie);
         var updatedRate = 10;
 
@@ -93,8 +94,6 @@ class ReviewTest {
                 session.flush();
                 session.evict(review);
 
-                // действительно ли LAZY fetch ускоряет отправку запроса
-                // если нам не надо делать left outer join на таблицы movie и user?
                 Review deletedReview = session.get(Review.class, review.getId());
 
                 assertThat(deletedReview).isNull();

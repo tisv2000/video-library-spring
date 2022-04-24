@@ -8,27 +8,33 @@ import java.time.LocalDate;
 @UtilityClass
 public class TestUtil {
 
-    public static Person person = Person.builder()
-            .name("John")
-            .birthday(LocalDate.of(2000, 1, 1))
-            .build();
+    public static Person getPerson() {
+        return Person.builder()
+                .name("John")
+                .birthday(LocalDate.of(2000, 1, 1))
+                .build();
+    }
 
-    public static User user = User.builder()
-            .name("Leo")
-            .birthdate(LocalDate.of(2000, 1, 1))
-            .password("123")
-            .email("leo@test.com")
-            .role(Role.USER)
-            .gender(Gender.MALE)
-            .build();
+    public static User getUser() {
+        return User.builder()
+                .name("Leo")
+                .birthdate(LocalDate.of(2000, 1, 1))
+                .password("123")
+                .email("leo@test.com")
+                .role(Role.USER)
+                .gender(Gender.MALE)
+                .build();
+    }
 
-    public static Movie movie = Movie.builder()
-            .title("Test movie")
-            .year(2000)
-            .country("Wonderland")
-            .genre(Genre.THRILLER)
-            .description("la la la")
-            .build();
+    public static Movie getMovie() {
+        return Movie.builder()
+                .title("Test movie")
+                .year(2000)
+                .country("Wonderland")
+                .genre(Genre.THRILLER)
+                .description("la la la")
+                .build();
+    }
 
     public static Review getReview(User user, Movie movie) {
         return Review.builder()

@@ -6,14 +6,15 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 
+import static com.tisv2000.testUtils.TestUtil.getUser;
 import static com.tisv2000.util.HibernateUtil.buildSessionFactory;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UserTest {
 
     @Test
-    public void saveAndGetUser() {
-        User user = TestUtil.user;
+    void saveAndGetUser() {
+        User user = getUser();
 
         try (SessionFactory sessionFactory = buildSessionFactory()) {
             Session session = sessionFactory.openSession();
@@ -25,8 +26,17 @@ class UserTest {
                 session.flush();
                 session.evict(user);
 
-                User createdUser = session.get(User.class, user.getId());
-                assertThat(createdUser.getEmail()).isEqualTo(user.getEmail());
+//                User createdUser = session.get(User.class, user.getId());
+                var result = session
+//                        .createQuery("select u from User u where u.email = ?1", User.class)
+//                        .setParameter(1, "leo@test.com")
+                        // или
+                        .createQuery("select u from User u where u.email = :email", User.class)
+                        .setParameter("email", "leo@test.com")
+                        .list();
+
+
+                assertThat(result.get(0).getEmail()).isEqualTo(user.getEmail());
 
                 session.getTransaction().commit();
             }
@@ -34,8 +44,8 @@ class UserTest {
     }
 
     @Test
-    public void updateUser() {
-        User user = TestUtil.user;
+    void updateUser() {
+        User user = getUser();
         var updatedEmail = "other@test.com";
 
         try (SessionFactory sessionFactory = buildSessionFactory()) {
@@ -51,17 +61,17 @@ class UserTest {
                 session.flush();
                 session.evict(user);
 
-                User updatedUser = session.get(User.class, user.getId());
+                User getUser = session.get(User.class, user.getId());
 
-                assertThat(updatedUser.getEmail()).isEqualTo(updatedEmail);
+                assertThat(getUser.getEmail()).isEqualTo(updatedEmail);
                 session.getTransaction().commit();
             }
         }
     }
 
     @Test
-    public void deleteUser() {
-        User user = TestUtil.user;
+    void deleteUser() {
+        User user = getUser();
         try (SessionFactory sessionFactory = buildSessionFactory()) {
             Session session = sessionFactory.openSession();
 
@@ -70,9 +80,8 @@ class UserTest {
 
                 session.save(user);
 
-                // почему-то не вижу в сформированных sql запросах get запрос перед delete, сначала же он выполняется, а потом уже delete?
                 session.delete(user);
-                // следовательно не понятно, почему тест проходит если мы не делаем flush и evict этой сущности, у нас
+                // почему тест проходит если мы не делаем flush и evict этой сущности, у нас
                 // же должна в кэше быть сохранена эта сущность и, следовательно, при get запросе сам запрос бы
                 // не отправился и вернулась бы эта сущность, которая бы не была еще удаленной и тест должен был упасть...
 
