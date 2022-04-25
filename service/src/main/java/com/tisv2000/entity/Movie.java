@@ -6,7 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
+@NamedEntityGraph(
+        name = "WithReviews",
+        attributeNodes = {
+                @NamedAttributeNode("reviews")
+        }
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +27,9 @@ public class Movie {
 
     @Enumerated(EnumType.STRING)
     private Genre genre;
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Review> reviews;
 
     private String title;
     private Integer year;

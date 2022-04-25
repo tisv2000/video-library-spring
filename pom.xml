@@ -17,7 +17,9 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hibernate.version>5.6.7.Final</hibernate.version>
+        <hibernate.jpamodelgen.version>5.6.8.Final</hibernate.jpamodelgen.version>
+        <hibernate.version>5.6.8.Final</hibernate.version>
+        <querydsl.version>5.0.0</querydsl.version>
         <postgres.version>42.3.3</postgres.version>
         <h2.version>1.4.200</h2.version>
         <slf4j.version>1.7.36</slf4j.version>
@@ -29,6 +31,7 @@
         <compiler.plugin.version>3.10.1</compiler.plugin.version>
         <surefire.plugin.version>3.0.0-M5</surefire.plugin.version>
         <failsafe.plugin.version>3.0.0-M5</failsafe.plugin.version>
+        <javax.persistence-api>2.2</javax.persistence-api>
         <install.plugin.version>3.0.0-M1</install.plugin.version>
         <dependency.plugin.version>3.3.0</dependency.plugin.version>
         <jar.plugin.version>3.2.2</jar.plugin.version>
@@ -46,6 +49,27 @@
                 <version>${hibernate.version}</version>
             </dependency>
 
+            <!-- This model is used by criteria api -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-jpamodelgen</artifactId>
+                <version>${hibernate.jpamodelgen.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-apt</artifactId>
+                <version>${querydsl.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-jpa</artifactId>
+                <version>${querydsl.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
@@ -60,17 +84,22 @@
                 <scope>test</scope>
             </dependency>
 
-            <!--            вроде я нигде не использую эту зависимость, почему все тесты падают, если я удалю ее отсюда?-->
             <dependency>
                 <groupId>ch.qos.reload4j</groupId>
                 <artifactId>reload4j</artifactId>
                 <version>1.2.20</version>
             </dependency>
 
-
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
@@ -96,6 +125,11 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-wrapper-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>${resources.plugin.version}</version>
                 </plugin>
@@ -103,11 +137,66 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${compiler.plugin.version}</version>
+                    <configuration>
+                        <annotationProcessors>
+                            <annotationProcessor>lombok.launch.AnnotationProcessorHider$AnnotationProcessor</annotationProcessor>
+                            <annotationProcessor>com.querydsl.apt.jpa.JPAAnnotationProcessor</annotationProcessor>
+                            <annotationProcessor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</annotationProcessor>
+                        </annotationProcessors>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>com.querydsl</groupId>
+                                <artifactId>querydsl-apt</artifactId>
+                                <version>${querydsl.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.hibernate</groupId>
+                                <artifactId>hibernate-jpamodelgen</artifactId>
+                                <version>${hibernate.jpamodelgen.version}</version>
+                            </path>
+                            <path>
+                                <groupId>javax.persistence</groupId>
+                                <artifactId>javax.persistence-api</artifactId>
+                                <version>${javax.persistence-api}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${surefire.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.querydsl</groupId>
+                    <artifactId>querydsl-maven-plugin</artifactId>
+                    <version>5.0.0</version>
+                    <executions>
+                        <execution>
+                            <phase>process-classes</phase>
+                            <goals>
+                                <goal>jpa-export</goal>
+                            </goals>
+                            <configuration>
+                                <targetFolder>target/generated-sources/java</targetFolder>
+                                <packages>
+                                    <package>com.tisv2000.entity</package>
+                                </packages>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>javax.persistence</groupId>
+                            <artifactId>javax.persistence-api</artifactId>
+                            <version>${javax.persistence-api}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
