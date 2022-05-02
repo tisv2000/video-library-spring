@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "review")
-public class Review {
+public class Review implements EntityBase<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // посмотреть еще раз как работает
     private Integer id;

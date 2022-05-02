@@ -7,24 +7,22 @@ import com.tisv2000.entity.Genre;
 import com.tisv2000.entity.Movie;
 import com.tisv2000.entity.Movie_;
 import com.tisv2000.entity.QMovie;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import org.hibernate.Session;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class MovieDao {
+public class MovieRepository extends RepositoryBase<Integer, Movie> {
 
-    private static final MovieDao INSTANCE = new MovieDao();
     private static final String HINT_NAME = "javax.persistence.fetchgraph";
+    private static EntityManager entityManager;
 
-    public static MovieDao getInstance() {
-        return INSTANCE;
+    public MovieRepository(EntityManager entityManager) {
+        super(Movie.class, entityManager);
+        MovieRepository.entityManager = entityManager;
     }
 
-    public List<Movie> findAllByFilterQueryDsl(Session session, MovieFilterDto movieFilterDto) {
+    public List<Movie> findAllByFilterQueryDsl(MovieFilterDto movieFilterDto) {
 
         // TODO: Вынести логику создания Predicates в отдельный класс
         List<Predicate> predicates = new ArrayList<>();
@@ -42,17 +40,16 @@ public class MovieDao {
             predicates.add(QMovie.movie.genre.eq(Genre.valueOf(movieFilterDto.getGenre())));
         }
 
-        return new JPAQuery<Movie>(session)
+        return new JPAQuery<Movie>(entityManager)
                 .select(QMovie.movie)
                 .from(QMovie.movie)
                 .where(predicates.toArray(Predicate[]::new))
-                .setHint(HINT_NAME, session.getEntityGraph("WithReviews"))
+                .setHint(HINT_NAME, entityManager.getEntityGraph("WithReviews"))
                 .fetch();
-
     }
 
-    public List<Movie> findAllByFilterCriteriaApi(Session session, MovieFilterDto movieFilterDto) {
-        var cb = session.getCriteriaBuilder();
+    public List<Movie> findAllByFilterCriteriaApi(MovieFilterDto movieFilterDto) {
+        var cb = entityManager.getCriteriaBuilder();
 
         var criteria = cb.createQuery(Movie.class);
 
@@ -77,8 +74,7 @@ public class MovieDao {
                 predicates.toArray(new javax.persistence.criteria.Predicate[0])
         );
 
-        return session.createQuery(criteria)
-                .setHint(HINT_NAME, session.getEntityGraph("WithReviews"))
-                .list();
+        return entityManager.createQuery(criteria)
+                .setHint(HINT_NAME, entityManager.getEntityGraph("WithReviews")).getResultList();
     }
 }

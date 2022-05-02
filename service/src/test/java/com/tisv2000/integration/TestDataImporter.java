@@ -12,24 +12,28 @@ import java.time.LocalDate;
 public class TestDataImporter {
 
     public void importTestData(SessionFactory sessionFactory) {
-        @Cleanup Session session = sessionFactory.openSession();
+        try(Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
 
-        User user1 = saveUser(session, Role.USER, Gender.MALE, LocalDate.of(2000, 1, 1),
-                "Tomas", "123", "tom@gmail.com");
+            User user1 = saveUser(session, Role.USER, Gender.MALE, LocalDate.of(2000, 1, 1),
+                    "Tomas", "123", "tom@gmail.com");
 
-        User user2 = saveUser(session, Role.USER, Gender.MALE, LocalDate.of(1990, 1, 1),
-                "Bill", "456", "bill@gmail.com");
+            User user2 = saveUser(session, Role.USER, Gender.MALE, LocalDate.of(1990, 1, 1),
+                    "Bill", "456", "bill@gmail.com");
 
-        Movie titanicMovie = saveMovie(session, Genre.DRAMA, "Titanic",
-                1997, "the USA", "la-la-la");
-        Movie holidayMovie = saveMovie(session, Genre.DRAMA, "The Holiday",
-                2006, "the USA", "some text");
-        Movie vampireDiariesMovie = saveMovie(session, Genre.THRILLER, "The Vampire Diaries",
-                2009, "the USA", "text");
+            Movie titanicMovie = saveMovie(session, Genre.DRAMA, "Titanic",
+                    1997, "the USA", "la-la-la");
+            Movie holidayMovie = saveMovie(session, Genre.DRAMA, "The Holiday",
+                    2006, "the USA", "some text");
+            Movie vampireDiariesMovie = saveMovie(session, Genre.THRILLER, "The Vampire Diaries",
+                    2009, "the USA", "text");
 
-        Review holidayReview1 = saveReview(session, user1, holidayMovie, "good movie", 8);
-        Review holidayReview2 = saveReview(session, user2, holidayMovie, "i like it very much", 10);
-        Review vampireDiariesReview1 = saveReview(session, user1, vampireDiariesMovie, "best movie ever", 10);
+            Review holidayReview1 = saveReview(session, user1, holidayMovie, "good movie", 8);
+            Review holidayReview2 = saveReview(session, user2, holidayMovie, "i like it very much", 10);
+            Review vampireDiariesReview1 = saveReview(session, user1, vampireDiariesMovie, "best movie ever", 10);
+
+            session.getTransaction().commit();
+        }
     }
 
     private User saveUser(Session session, Role role, Gender gender, LocalDate birthdate, String name, String password, String email) {
