@@ -1,14 +1,18 @@
 package com.tisv2000.integration.dao;
 
+import com.tisv2000.config.ApplicationContext;
+import com.tisv2000.dao.MovieRepository;
 import com.tisv2000.dao.UserRepository;
 import com.tisv2000.entity.User;
 import com.tisv2000.integration.TestDataImporter;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.lang.reflect.Proxy;
 
@@ -18,10 +22,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserRepositoryTest {
 
-    public static final SessionFactory sessionFactory = buildSessionFactory();
+    public static SessionFactory sessionFactory;
 
+    // Так не работает...
     @BeforeAll
     static void initDataBase() {
+        try(var context = new AnnotationConfigApplicationContext(ApplicationContext.class)) {
+            sessionFactory = context.getBean(SessionFactory.class);
+        }
         TestDataImporter.importTestData(sessionFactory);
     }
 
