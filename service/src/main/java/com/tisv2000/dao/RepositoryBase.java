@@ -22,6 +22,7 @@ public abstract class RepositoryBase<K extends Serializable, E extends EntityBas
 
     @Override
     public void update(E entity) {
+        entityManager.find(clazz, entity.getId());
         entityManager.merge(entity);
     }
 

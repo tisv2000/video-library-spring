@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS movie
     country     VARCHAR(256) NOT NULL,
     genre       VARCHAR(256) NOT NULL,
     image       VARCHAR(128),
-    description VARCHAR(512) NOT NULL,
+    description VARCHAR(512) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS person

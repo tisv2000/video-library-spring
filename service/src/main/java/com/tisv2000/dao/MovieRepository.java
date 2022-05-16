@@ -8,12 +8,13 @@ import com.tisv2000.entity.Movie;
 import com.tisv2000.entity.Movie_;
 import com.tisv2000.entity.QMovie;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Repository
 public class MovieRepository extends RepositoryBase<Integer, Movie> {
 
     private static final String HINT_NAME = "javax.persistence.fetchgraph";

@@ -4,4 +4,6 @@ import java.io.Serializable;
 
 public interface EntityBase<T extends Serializable> {
 
+    T getId();
+
 }

@@ -1,18 +1,18 @@
 package com.tisv2000;
 
-import com.tisv2000.config.ApplicationContext;
-import com.tisv2000.dao.MovieRepository;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class ApplicationRunner {
 
     public static void main(String[] args) {
+        var context = SpringApplication.run(ApplicationRunner.class, args);
 
-        try(var context = new AnnotationConfigApplicationContext(ApplicationContext.class)) {
-            var bean = context.getBean(MovieRepository.class);
-            System.out.println(bean);
-        }
-
+        // TODO проанализировать оба варианта
+//        try(var context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class)) {
+//            var bean = context.getBean(MovieRepository.class);
+//            System.out.println(bean);
+//        }
     }
-
 }

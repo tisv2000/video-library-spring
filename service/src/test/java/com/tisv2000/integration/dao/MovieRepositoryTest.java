@@ -3,152 +3,101 @@ package com.tisv2000.integration.dao;
 import com.tisv2000.dao.MovieRepository;
 import com.tisv2000.dto.MovieFilterDto;
 import com.tisv2000.entity.Movie;
-import com.tisv2000.integration.BaseTest;
 import com.tisv2000.integration.TestDataImporter;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Proxy;
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static com.tisv2000.testUtils.TestUtil.getMovie;
-import static com.tisv2000.util.HibernateUtil.buildSessionFactory;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class MovieRepositoryTest {
+@SpringBootTest
+@Transactional
+public class MovieRepositoryTest {
 
-    public static final SessionFactory sessionFactory = buildSessionFactory();
+    @Autowired
+    private EntityManager entityManager;
 
-    @BeforeAll
-    static void initDataBase() {
-        TestDataImporter.importTestData(sessionFactory);
+    @BeforeEach
+    void initDataBase() {
+        TestDataImporter.importTestData(entityManager);
     }
 
-    @AfterAll
-    static public void cleanUp() {
-        sessionFactory.close();
+    @Test
+    void findById() {
+        Movie movie = getMovie();
+
+        entityManager.persist(movie);
+
+        // TODO почему возвращается не optional?
+        var foundMovie = entityManager.find(Movie.class, movie.getId());
+
+        assertNotNull(foundMovie);
+        assertThat(foundMovie.getTitle()).isEqualTo("Test movie");
     }
 
     @Test
     void saveTest() {
         Movie movie = getMovie();
 
-        var session = (Session) Proxy.newProxyInstance(SessionFactory.class.getClassLoader(), new Class[]{Session.class},
-                (proxy, method, args) -> method.invoke(sessionFactory.getCurrentSession(), args));
-        session.beginTransaction();
+        entityManager.persist(movie);
 
-        var movieRepository = new MovieRepository(session);
-
-        var savedMovie = movieRepository.save(movie);
+        var savedMovie = entityManager.find(Movie.class, movie.getId());
 
         assertThat(savedMovie.getTitle()).isEqualTo(movie.getTitle());
-        session.getTransaction().rollback();
-    }
-
-    @Test
-    void findByIdTest() {
-        var session = (Session) Proxy.newProxyInstance(SessionFactory.class.getClassLoader(), new Class[]{Session.class},
-                (proxy, method, args) -> method.invoke(sessionFactory.getCurrentSession(), args));
-        session.beginTransaction();
-
-        var movieRepository = new MovieRepository(session);
-
-        var foundMovie = movieRepository.findById(1);
-
-        assertThat(foundMovie).isPresent();
-        assertThat(foundMovie.get().getTitle()).isEqualTo("Titanic");
-
-        session.getTransaction().rollback();
     }
 
     @Test
     void updateTest() {
-        var session = (Session) Proxy.newProxyInstance(SessionFactory.class.getClassLoader(), new Class[]{Session.class},
-                (proxy, method, args) -> method.invoke(sessionFactory.getCurrentSession(), args));
-        session.beginTransaction();
 
-        var movieRepository = new MovieRepository(session);
+        Movie movie = getMovie();
 
-        var movieToUpdate = movieRepository.findById(1).get();
+        entityManager.persist(movie);
+
+        var movieToUpdate = entityManager.find(Movie.class, movie.getId());
         movieToUpdate.setTitle("New title");
+        entityManager.merge(movieToUpdate);
 
-        movieRepository.update(movieToUpdate);
+        var updatedMovie = entityManager.find(Movie.class, movieToUpdate.getId());
 
-        var updatedMovie = movieRepository.findById(1);
-
-        assertThat(updatedMovie).isPresent();
-        assertThat(updatedMovie.get().getTitle()).isEqualTo(movieToUpdate.getTitle());
-
-        session.getTransaction().rollback();
+        assertNotNull(updatedMovie);
+        assertThat(updatedMovie.getTitle()).isEqualTo(movieToUpdate.getTitle());
     }
 
     @Test
     void deleteTest() {
-        var session = (Session) Proxy.newProxyInstance(SessionFactory.class.getClassLoader(), new Class[]{Session.class},
-                (proxy, method, args) -> method.invoke(sessionFactory.getCurrentSession(), args));
-        session.beginTransaction();
+        Movie movie = getMovie();
 
-        var movieRepository = new MovieRepository(session);
+        entityManager.persist(movie);
 
-        movieRepository.delete(1);
+        var movieToDelete = entityManager.find(Movie.class, movie.getId());
+        entityManager.remove(movieToDelete);
 
-        assertThat(movieRepository.findById(1)).isEmpty();
-
-        session.getTransaction().rollback();
-    }
-
-    @Test
-    void findAllTest() {
-        var session = (Session) Proxy.newProxyInstance(SessionFactory.class.getClassLoader(), new Class[]{Session.class},
-                (proxy, method, args) -> method.invoke(sessionFactory.getCurrentSession(), args));
-        session.beginTransaction();
-
-        var movieRepository = new MovieRepository(session);
-
-        var movies = movieRepository.findAll();
-
-        assertThat(movies.size()).isEqualTo(3);
-
-        session.getTransaction().rollback();
+        assertThat(entityManager.find(Movie.class, movieToDelete.getId())).isNull();
     }
 
     @ParameterizedTest
     @MethodSource("movieFilterDataProvider")
     void findAllByFilterTest(MovieFilterDto movieFilterDto, int expectedResult) {
-
-        var session = (Session) Proxy.newProxyInstance(SessionFactory.class.getClassLoader(), new Class[]{Session.class},
-                (proxy, method, args) -> method.invoke(sessionFactory.getCurrentSession(), args));
-        session.beginTransaction();
-
-        List<Movie> filteredMovies = new MovieRepository(session).findAllByFilterQueryDsl(movieFilterDto);
-
+        List<Movie> filteredMovies = new MovieRepository(entityManager).findAllByFilterQueryDsl(movieFilterDto);
         assertThat(filteredMovies.size()).isEqualTo(expectedResult);
-
-        session.getTransaction().rollback();
     }
 
     @ParameterizedTest
     @MethodSource("movieFilterDataProvider")
     void findAllByFilterCriteriaApiTest(MovieFilterDto movieFilterDto, int expectedResult) {
-
-        var session = (Session) Proxy.newProxyInstance(SessionFactory.class.getClassLoader(), new Class[]{Session.class},
-                (proxy, method, args) -> method.invoke(sessionFactory.getCurrentSession(), args));
-        session.beginTransaction();
-
-        List<Movie> filteredMovies = new MovieRepository(session).findAllByFilterCriteriaApi(movieFilterDto);
-
+        List<Movie> filteredMovies = new MovieRepository(entityManager).findAllByFilterCriteriaApi(movieFilterDto);
         assertThat(filteredMovies.size()).isEqualTo(expectedResult);
-
-        session.getTransaction().rollback();
-
     }
 
     public static Stream<Arguments> movieFilterDataProvider() {
@@ -160,9 +109,6 @@ class MovieRepositoryTest {
                 Arguments.of(buildMovieFilterDto("The Holiday", "2006", "", "DRAMA"), 1),
                 Arguments.of(buildMovieFilterDto("The Holiday", "2006", "the USA", ""), 1),
                 Arguments.of(buildMovieFilterDto(null, "2006", "the USA", ""), 1)
-//                Arguments.of(buildMovieFilterDto("", "", "", "DRAMA"), 2),
-//                Arguments.of(buildMovieFilterDto("", "", "", ""), 3),
-//                Arguments.of(buildMovieFilterDto("Some test movie", "", "", ""), 0)
         );
     }
 
