@@ -1,13 +1,18 @@
 package com.tisv2000.integration.dao;
 
+import com.tisv2000.dao.MovieRepository;
+import com.tisv2000.dao.ReviewRepository;
+import com.tisv2000.dao.UserRepository;
 import com.tisv2000.entity.Movie;
 import com.tisv2000.entity.Review;
 import com.tisv2000.entity.User;
 import com.tisv2000.integration.TestDataImporter;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.repository.history.RevisionRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -18,43 +23,27 @@ import static com.tisv2000.testUtils.TestUtil.getUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@RequiredArgsConstructor
 @SpringBootTest
 @Transactional
 public class ReviewRepositoryTest {
 
-    @Autowired
-    private EntityManager entityManager;
-
-//    @BeforeEach
-//    void initDataBase() {
-//        TestDataImporter.importTestData(entityManager);
-//    }
+    private final ReviewRepository reviewRepository;
+    private final MovieRepository movieRepository;
+    private final UserRepository userRepository;
 
     @Test
-    void findById() {
+    void saveAndFindById() {
         User user = getUser();
         Movie movie = getMovie();
         Review review = getReview(user, movie);
 
-        entityManager.persist(review);
+        reviewRepository.save(review);
 
-        var foundReview = entityManager.find(Review.class, review.getId());
+        var maybeReview = reviewRepository.findById(review.getId());
 
-        assertNotNull(foundReview);
-        assertThat(foundReview.getRate()).isEqualTo(review.getRate());
-    }
-
-    @Test
-    void saveTest() {
-        User user = getUser();
-        Movie movie = getMovie();
-        Review review = getReview(user, movie);
-
-        entityManager.persist(review);
-
-        var savedMovie = entityManager.find(Review.class, review.getId());
-
-        assertThat(savedMovie.getRate()).isEqualTo(review.getRate());
+        assertThat(maybeReview).isPresent();
+        assertThat(maybeReview.get().getRate()).isEqualTo(review.getRate());
     }
 
     @Test
@@ -63,16 +52,20 @@ public class ReviewRepositoryTest {
         Movie movie = getMovie();
         Review review = getReview(user, movie);
 
-        entityManager.persist(review);
+        userRepository.save(user);
+        movieRepository.save(movie);
+        reviewRepository.save(review);
 
-        var reviewToUpdate = entityManager.find(Review.class, review.getId());
+        var maybeReviewToUpdate = reviewRepository.findById(review.getId());
+        assertThat(maybeReviewToUpdate).isPresent();
+        var reviewToUpdate = maybeReviewToUpdate.get();
         reviewToUpdate.setRate(10);
-        entityManager.merge(reviewToUpdate);
+        reviewRepository.saveAndFlush(reviewToUpdate);
 
-        var updatedReview = entityManager.find(Review.class, reviewToUpdate.getId());
+        var maybeUpdatedReview = reviewRepository.findById(reviewToUpdate.getId());
 
-        assertNotNull(updatedReview);
-        assertThat(updatedReview.getRate()).isEqualTo(reviewToUpdate.getRate());
+        assertThat(maybeUpdatedReview).isPresent();
+        assertThat(maybeUpdatedReview.get().getRate()).isEqualTo(reviewToUpdate.getRate());
     }
 
     @Test
@@ -81,12 +74,12 @@ public class ReviewRepositoryTest {
         Movie movie = getMovie();
         Review review = getReview(user, movie);
 
-        entityManager.persist(review);
+        reviewRepository.save(review);
 
-        var reviewToDelete = entityManager.find(Review.class, review.getId());
-        entityManager.remove(reviewToDelete);
+        var maybeReviewToDelete = reviewRepository.findById(review.getId());
+        assertThat(maybeReviewToDelete).isPresent();
+        reviewRepository.deleteById(maybeReviewToDelete.get().getId());
 
-        assertThat(entityManager.find(Review.class, reviewToDelete.getId())).isNull();
+        assertThat(reviewRepository.findById(maybeReviewToDelete.get().getId())).isEmpty();
     }
-
 }

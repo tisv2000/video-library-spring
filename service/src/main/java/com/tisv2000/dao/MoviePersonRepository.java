@@ -1,15 +1,20 @@
 package com.tisv2000.dao;
 
-import com.tisv2000.entity.User;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
+import com.tisv2000.entity.MoviePerson;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Optional;
 
-@Repository
-public class MoviePersonRepository extends RepositoryBase<Integer, User> {
+public interface MoviePersonRepository extends JpaRepository<MoviePerson, Integer> {
 
-    public MoviePersonRepository(EntityManager entityManager) {
-        super(User.class, entityManager);
-    }
+    Optional<MoviePerson> findById(Integer id);
+
+    List<MoviePerson> findAll();
+
+    MoviePerson save(MoviePerson entity);
+
+    MoviePerson saveAndFlush(MoviePerson entity);
+
+    void deleteById(Integer id);
 }

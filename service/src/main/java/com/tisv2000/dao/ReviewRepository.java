@@ -1,15 +1,21 @@
 package com.tisv2000.dao;
 
 import com.tisv2000.entity.Review;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Optional;
 
-@Repository
-public class ReviewRepository extends RepositoryBase<Integer, Review> {
+public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
-    public ReviewRepository(EntityManager entityManager) {
-        super(Review.class, entityManager);
-    }
+    Optional<Review> findById(Integer id);
+
+    List<Review> findAll();
+
+    Review save(Review entity);
+
+    Review saveAndFlush(Review entity);
+
+    void deleteById(Integer id);
+
 }
