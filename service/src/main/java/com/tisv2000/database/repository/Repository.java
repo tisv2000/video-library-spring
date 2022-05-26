@@ -1,6 +1,6 @@
-package com.tisv2000.dao;
+package com.tisv2000.database.repository;
 
-import com.tisv2000.entity.EntityBase;
+import com.tisv2000.database.entity.EntityBase;
 
 import java.io.Serializable;
 import java.util.List;

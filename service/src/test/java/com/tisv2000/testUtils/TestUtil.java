@@ -1,6 +1,14 @@
 package com.tisv2000.testUtils;
 
-import com.tisv2000.entity.*;
+import com.tisv2000.database.entity.Gender;
+import com.tisv2000.database.entity.Genre;
+import com.tisv2000.database.entity.Movie;
+import com.tisv2000.database.entity.MoviePerson;
+import com.tisv2000.database.entity.Person;
+import com.tisv2000.database.entity.PersonRole;
+import com.tisv2000.database.entity.Review;
+import com.tisv2000.database.entity.Role;
+import com.tisv2000.database.entity.User;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDate;

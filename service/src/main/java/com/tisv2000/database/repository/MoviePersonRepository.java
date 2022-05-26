@@ -1,6 +1,6 @@
-package com.tisv2000.dao;
+package com.tisv2000.database.repository;
 
-import com.tisv2000.entity.MoviePerson;
+import com.tisv2000.database.entity.MoviePerson;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface MoviePersonRepository extends JpaRepository<MoviePerson, Intege
 
     List<MoviePerson> findAll();
 
-    MoviePerson save(MoviePerson entity);
+//    MoviePerson save(MoviePerson entity);
 
     MoviePerson saveAndFlush(MoviePerson entity);
 

@@ -1,7 +1,7 @@
 package com.tisv2000.integration.dao;
 
-import com.tisv2000.dao.UserRepository;
-import com.tisv2000.entity.User;
+import com.tisv2000.database.repository.UserRepository;
+import com.tisv2000.database.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

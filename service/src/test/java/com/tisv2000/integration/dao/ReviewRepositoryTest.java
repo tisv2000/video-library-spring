@@ -1,21 +1,15 @@
 package com.tisv2000.integration.dao;
 
-import com.tisv2000.dao.MovieRepository;
-import com.tisv2000.dao.ReviewRepository;
-import com.tisv2000.dao.UserRepository;
-import com.tisv2000.entity.Movie;
-import com.tisv2000.entity.Review;
-import com.tisv2000.entity.User;
-import com.tisv2000.integration.TestDataImporter;
+import com.tisv2000.database.repository.MovieRepository;
+import com.tisv2000.database.repository.ReviewRepository;
+import com.tisv2000.database.repository.UserRepository;
+import com.tisv2000.database.entity.Movie;
+import com.tisv2000.database.entity.Review;
+import com.tisv2000.database.entity.User;
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.repository.history.RevisionRepository;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
 
 import static com.tisv2000.testUtils.TestUtil.getMovie;
 import static com.tisv2000.testUtils.TestUtil.getReview;

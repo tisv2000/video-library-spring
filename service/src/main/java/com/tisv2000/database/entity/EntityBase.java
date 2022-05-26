@@ -1,4 +1,4 @@
-package com.tisv2000.entity;
+package com.tisv2000.database.entity;
 
 import java.io.Serializable;
 

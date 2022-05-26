@@ -7,7 +7,7 @@ import lombok.Value;
 @Builder
 public class MovieFilterDto {
     String title;
-    String year;
+    Integer year;
     String country;
     String genre;
 }

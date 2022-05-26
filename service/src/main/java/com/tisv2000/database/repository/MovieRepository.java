@@ -1,6 +1,10 @@
-package com.tisv2000.dao;
+package com.tisv2000.database.repository;
 
-import com.tisv2000.entity.Movie;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.tisv2000.database.entity.Movie;
+import com.tisv2000.database.entity.QMovie;
+import com.tisv2000.database.querydsl.QPredicates;
+import com.tisv2000.dto.MovieFilterDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -12,7 +16,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     List<Movie> findAll();
 
-    Movie save(Movie entity);
+//    Movie save(Movie entity);
 
     Movie saveAndFlush(Movie entity);
 
@@ -21,23 +25,15 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
 //    List<Movie> findAllByFilterQueryDsl(MovieFilterDto movieFilterDto) {
 //
-//        // TODO: Вынести логику создания Predicates в отдельный класс
-//        List<Predicate> predicates = new ArrayList<>();
+//        QPredicates.builder()
+//                .add(movieFilterDto.getTitle(), QMovie.movie.title::containsIgnoreCase)
+//                .add(movieFilterDto.getYear(), QMovie.movie.year::eq)
+//                .add(movieFilterDto.getCountry(), QMovie.movie.country::containsIgnoreCase)
+//                .add(movieFilterDto.getGenre(), QMovie.movie.genre.stringValue()::containsIgnoreCase)
+//                .build();
 //
-//        if (movieFilterDto.getTitle() != null && !movieFilterDto.getTitle().isEmpty()) {
-//            predicates.add(QMovie.movie.title.eq(movieFilterDto.getTitle()));
-//        }
-//        if (movieFilterDto.getYear() != null && !movieFilterDto.getYear().isEmpty()) {
-//            predicates.add(QMovie.movie.year.eq(Integer.valueOf(movieFilterDto.getYear())));
-//        }
-//        if (movieFilterDto.getCountry() != null && !movieFilterDto.getCountry().isEmpty()) {
-//            predicates.add(QMovie.movie.country.eq(movieFilterDto.getCountry()));
-//        }
-//        if (movieFilterDto.getGenre() != null && !movieFilterDto.getGenre().isEmpty()) {
-//            predicates.add(QMovie.movie.genre.eq(Genre.valueOf(movieFilterDto.getGenre())));
-//        }
 //
-//        return new JPAQuery<Movie>(entityManager)
+//        return new JPAQuery<Movie>()
 //                .select(QMovie.movie)
 //                .from(QMovie.movie)
 //                .where(predicates.toArray(Predicate[]::new))

@@ -1,6 +1,6 @@
-package com.tisv2000.dao;
+package com.tisv2000.database.repository;
 
-import com.tisv2000.entity.User;
+import com.tisv2000.database.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

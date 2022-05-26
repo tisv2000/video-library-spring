@@ -1,7 +1,6 @@
 package com.tisv2000.integration.entity;
 
-import com.tisv2000.entity.User;
-import com.tisv2000.testUtils.TestUtil;
+import com.tisv2000.database.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
