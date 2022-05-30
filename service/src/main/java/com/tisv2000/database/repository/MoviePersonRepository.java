@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface MoviePersonRepository extends JpaRepository<MoviePerson, Integer> {
 
-    Optional<MoviePerson> findById(Integer id);
+//    Optional<MoviePerson> findById(Integer id);
 
-    List<MoviePerson> findAll();
+//    List<MoviePerson> findAll();
 
 //    MoviePerson save(MoviePerson entity);
 
-    MoviePerson saveAndFlush(MoviePerson entity);
+//    MoviePerson saveAndFlush(MoviePerson entity);
 
-    void deleteById(Integer id);
+//    void deleteById(Integer id);
 }

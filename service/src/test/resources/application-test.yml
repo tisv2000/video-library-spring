@@ -1,0 +1,7 @@
+spring:
+  jpa:
+    properties.hibernate:
+      hbm2ddl.auto: validate
+      dialect: org.hibernate.dialect.PostgreSQL10Dialect
+
+#    database-platform: org.hibernate.dialect.PostgreSQL10Dialect

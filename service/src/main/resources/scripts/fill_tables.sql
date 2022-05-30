@@ -1,4 +1,4 @@
-INSERT INTO person (name, birth_date)
+INSERT INTO person (name, birthday)
 VALUES ('Emma Watson', '1990-04-25'),
        ('Brad Pitt', '1963-12-18'),
        ('Danial Radcliffe', '1989-07-23'),
@@ -88,7 +88,7 @@ VALUEs (1, 10, 'COMPOSER'),
        (16, 3, 'ACTOR'),
        (16, 4, 'ACTOR');
 
-INSERT INTO users (name, password, email, role, gender)
+INSERT INTO users (name, birth_date, password, email, role, gender)
 VALUES ('user1', '2000-01-01', 'user1', 'user1', 'USER', 'MALE'),
        ('user2', '1999-01-01', 'user2', 'user2', 'USER', 'FEMALE'),
        ('user3', '1995-01-01', 'user3', 'user3', 'USER', 'MALE'),

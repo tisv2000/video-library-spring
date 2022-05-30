@@ -6,22 +6,13 @@ import com.tisv2000.database.entity.QMovie;
 import com.tisv2000.database.querydsl.QPredicates;
 import com.tisv2000.dto.MovieFilterDto;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
-
-    Optional<Movie> findById(Integer id);
-
-    List<Movie> findAll();
-
-//    Movie save(Movie entity);
-
-    Movie saveAndFlush(Movie entity);
-
-    void deleteById(Integer id);
-
 
 //    List<Movie> findAllByFilterQueryDsl(MovieFilterDto movieFilterDto) {
 //

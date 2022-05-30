@@ -27,6 +27,7 @@
         <spring.version>5.3.19</spring.version>
         <hibernate.jpamodelgen.version>5.6.8.Final</hibernate.jpamodelgen.version>
         <hibernate.version>5.6.8.Final</hibernate.version>
+        <thymeleaf.version>2.7.0</thymeleaf.version>
         <querydsl.version>5.0.0</querydsl.version>
         <postgres.version>42.3.3</postgres.version>
         <tescontainers.version>1.16.3</tescontainers.version>
@@ -57,6 +58,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>2.7.0</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
@@ -76,6 +83,11 @@
                 <scope>provided</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                <version>${thymeleaf.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.querydsl</groupId>
                 <artifactId>querydsl-apt</artifactId>
@@ -109,11 +121,18 @@
                 <version>1.2.20</version>
             </dependency>
 
-<!--            <dependency>-->
-<!--                <groupId>org.liquibase</groupId>-->
-<!--                <artifactId>liquibase-core</artifactId>-->
+<!--            Ты в прошлом MR сказал, что тут версия не нужна, почему? откуда она будет взята тогда?-->
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
 <!--                <version>4.10.0</version>-->
-<!--            </dependency>-->
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-jasper</artifactId>
+                <version>10.1.0-M15</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.testcontainers</groupId>

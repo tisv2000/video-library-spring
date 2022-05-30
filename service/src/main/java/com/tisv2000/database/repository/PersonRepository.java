@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface PersonRepository extends JpaRepository<Person, Integer> {
 
-    Optional<Person> findById(Integer id);
+//    Optional<Person> findById(Integer id);
 
-    List<Person> findAll();
+//    List<Person> findAll();
 
-    Person save(Person entity);
+//    Person save(Person entity);
 
-    Person saveAndFlush(Person entity);
+//    Person saveAndFlush(Person entity);
 
-    void deleteById(Integer id);
+//    void deleteById(Integer id);
 }

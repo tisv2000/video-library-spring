@@ -1,11 +1,6 @@
-DROP TABLE IF EXISTS movie_person;
-DROP TABLE IF EXISTS person;
-DROP TABLE IF EXISTS person_role;
-DROP TABLE IF EXISTS review;
-DROP TABLE IF EXISTS movie;
-DROP TABLE IF EXISTS genre;
-DROP TABLE IF EXISTS users;
+--liquibase formatted sql
 
+--changeset lana:1
 CREATE TABLE IF NOT EXISTS movie
 (
     id          SERIAL PRIMARY KEY,
@@ -17,23 +12,24 @@ CREATE TABLE IF NOT EXISTS movie
     description VARCHAR(512) NOT NULL
     );
 
+--changeset lana:2
 CREATE TABLE IF NOT EXISTS person
 (
     id         SERIAL PRIMARY KEY,
     name       VARCHAR(256) NOT NULL,
-    birth_date DATE NOT NULL
+    birthday DATE NOT NULL
     );
 
+--changeset lana:3
 CREATE TABLE IF NOT EXISTS movie_person
 (
     id        SERIAL PRIMARY KEY,
-    movie_id  INT REFERENCES movie (id) NOT NULL,
-    person_id INT REFERENCES person (id) NOT NULL,
---     если это у меня enum, тогда здесь мы просто указываем varchar?
+    movie_id  INT NOT NULL REFERENCES movie (id) ON DELETE CASCADE,
+    person_id INT NOT NULL REFERENCES person (id) ON DELETE CASCADE,
     role      VARCHAR(256) NOT NULL
     );
 
-
+--changeset lana:4
 CREATE TABLE IF NOT EXISTS users
 (
     id       SERIAL PRIMARY KEY,
@@ -46,6 +42,7 @@ CREATE TABLE IF NOT EXISTS users
     gender    VARCHAR(32)  NOT NULL
     );
 
+--changeset lana:5
 CREATE TABLE IF NOT EXISTS review
 (
     id       SERIAL PRIMARY KEY,

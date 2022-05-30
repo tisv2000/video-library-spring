@@ -8,14 +8,14 @@ import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
-    Optional<Review> findById(Integer id);
+//    Optional<Review> findById(Integer id);
 
-    List<Review> findAll();
+//    List<Review> findAll();
 
-    Review save(Review entity);
+//    Review save(Review entity);
 
-    Review saveAndFlush(Review entity);
+//    Review saveAndFlush(Review entity);
 
-    void deleteById(Integer id);
+//    void deleteById(Integer id);
 
 }

@@ -1,8 +1,9 @@
 package com.tisv2000.integration.dao;
 
-import com.tisv2000.dao.MovieRepository;
+import com.tisv2000.database.entity.Movie;
+import com.tisv2000.database.repository.MovieRepository;
 import com.tisv2000.dto.MovieFilterDto;
-import com.tisv2000.entity.Movie;
+import com.tisv2000.integration.IntegrationTestBase;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.Arguments;
@@ -15,9 +16,8 @@ import static com.tisv2000.testUtils.TestUtil.getMovie;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RequiredArgsConstructor
-@SpringBootTest
 @Transactional
-public class MovieRepositoryTest {
+public class MovieRepositoryTest extends IntegrationTestBase {
 
     private final MovieRepository movieRepository;
 
@@ -80,17 +80,16 @@ public class MovieRepositoryTest {
 
     public static Stream<Arguments> movieFilterDataProvider() {
         return Stream.of(
-                Arguments.of(buildMovieFilterDto("The Holiday", "", "", ""), 1),
-                Arguments.of(buildMovieFilterDto("The Holiday", "2006", "the USA", "DRAMA"), 1),
-                Arguments.of(buildMovieFilterDto("", "2006", "the USA", "DRAMA"), 1),
-                Arguments.of(buildMovieFilterDto("The Holiday", "", "the USA", "DRAMA"), 1),
-                Arguments.of(buildMovieFilterDto("The Holiday", "2006", "", "DRAMA"), 1),
-                Arguments.of(buildMovieFilterDto("The Holiday", "2006", "the USA", ""), 1),
-                Arguments.of(buildMovieFilterDto(null, "2006", "the USA", ""), 1)
+                Arguments.of(buildMovieFilterDto("The Holiday", 2006, "the USA", "DRAMA"), 1),
+                Arguments.of(buildMovieFilterDto("", 2006, "the USA", "DRAMA"), 1),
+                Arguments.of(buildMovieFilterDto("The Holiday", null, "the USA", "DRAMA"), 1),
+                Arguments.of(buildMovieFilterDto("The Holiday", 2006, "", "DRAMA"), 1),
+                Arguments.of(buildMovieFilterDto("The Holiday", 2006, "the USA", ""), 1),
+                Arguments.of(buildMovieFilterDto(null, 2006, "the USA", ""), 1)
         );
     }
 
-    private static MovieFilterDto buildMovieFilterDto(String title, String year, String country, String genre) {
+    private static MovieFilterDto buildMovieFilterDto(String title, Integer year, String country, String genre) {
         return MovieFilterDto.builder()
                 .title(title)
                 .year(year)

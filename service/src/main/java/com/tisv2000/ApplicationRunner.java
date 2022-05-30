@@ -9,10 +9,13 @@ public class ApplicationRunner {
     public static void main(String[] args) {
         SpringApplication.run(ApplicationRunner.class, args);
 
+    }
+
+
         // TODO проанализировать оба варианта
 //        try(var context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class)) {
 //            var bean = context.getBean(MovieRepository.class);
 //            System.out.println(bean);
 //        }
-    }
+//    }
 }
