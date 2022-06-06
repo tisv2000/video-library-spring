@@ -1,7 +1,8 @@
-package com.tisv2000.mapper;
+package com.tisv2000.mapper.movie;
 
 import com.tisv2000.database.entity.Movie;
-import com.tisv2000.dto.MovieCreateEditDto;
+import com.tisv2000.dto.movie.MovieCreateEditDto;
+import com.tisv2000.mapper.Mapper;
 import org.springframework.stereotype.Component;
 
 @Component

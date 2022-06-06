@@ -20,11 +20,12 @@ VALUES (1, 3, 'ACTOR'),
        (3, 1, 'ACTOR'),
        (3, 2, 'ACTOR');
 
-INSERT INTO users (name, birth_date, password, email, role, gender)
-VALUES ('user1', '2000-01-01', 'user1', 'user1', 'USER', 'MALE'),
-       ('user2', '1999-01-01', 'user2', 'user2', 'USER', 'FEMALE'),
-       ('user3', '1995-01-01', 'user3', 'user3', 'USER', 'MALE'),
-       ('admin', '1990-01-01', 'admin', 'admin', 'ADMIN', 'MALE');
+INSERT INTO users (id, name, birth_date, password, email, role, gender)
+VALUES (1, 'user1', '2000-01-01', 'user1', 'user1', 'USER', 'MALE'),
+       (2, 'user2', '1999-01-01', 'user2', 'user2', 'USER', 'FEMALE'),
+       (3, 'user3', '1995-01-01', 'user3', 'user3', 'USER', 'MALE'),
+       (4, 'admin', '1990-01-01', 'admin', 'admin', 'ADMIN', 'MALE');
+SELECT SETVAL('users_id_seq', (SELECT MAX(id) FROM users));
 
 INSERT INTO review (user_id, movie_id, text, rate)
 VALUES (1, 1, 'Nice movie', 9),

@@ -1,7 +1,7 @@
-package com.tisv2000.dto;
+package com.tisv2000.dto.movie;
 
 import com.tisv2000.database.entity.Genre;
-import com.tisv2000.database.entity.Review;
+import com.tisv2000.dto.review.ReviewReadDto;
 import lombok.Value;
 
 import java.util.List;
@@ -15,5 +15,5 @@ public class MovieReadDto {
     String country;
     Genre genre;
     String image;
-    List<Review> reviews;
+    List<ReviewReadDto> reviews;
 }

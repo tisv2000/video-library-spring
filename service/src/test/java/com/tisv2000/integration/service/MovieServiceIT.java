@@ -1,18 +1,21 @@
 package com.tisv2000.integration.service;
 
 import com.tisv2000.database.entity.Genre;
-import com.tisv2000.dto.MovieCreateEditDto;
-import com.tisv2000.dto.MovieReadDto;
+import com.tisv2000.dto.movie.MovieCreateEditDto;
+import com.tisv2000.dto.movie.MovieReadDto;
 import com.tisv2000.integration.IntegrationTestBase;
 import com.tisv2000.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Transactional
 @RequiredArgsConstructor
 class MovieServiceIT extends IntegrationTestBase {
 

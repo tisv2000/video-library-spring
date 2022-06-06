@@ -1,5 +1,6 @@
-package com.tisv2000.dto;
+package com.tisv2000.dto.movie;
 
+import com.tisv2000.database.entity.Genre;
 import lombok.Builder;
 import lombok.Value;
 
@@ -9,5 +10,5 @@ public class MovieFilterDto {
     String title;
     Integer year;
     String country;
-    String genre;
+    Genre genre;
 }

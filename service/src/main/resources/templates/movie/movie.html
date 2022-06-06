@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Movie</title>
 </head>
+<h2 style="margin-left: 20px;color: blueviolet">Movie details</h2>
 <body>
-Here will be info about a single movie
-
+<div style="margin-left: 20px;align-content:center;margin-right: 50px">
+    <span th:text="|<b>Title</b> ${movie.title}|">title</span> <br>
+    <span th:text="|Year: ${movie.year}|">title</span> <br>
+    <span th:text="|Country: ${movie.country}|">title</span> <br>
+    <span th:text="|Description: ${movie.description}|">title</span> <br>
+</div>
 </body>
 </html>

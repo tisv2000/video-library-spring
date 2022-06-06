@@ -1,13 +1,13 @@
 package com.tisv2000.integration.dao;
 
+import com.tisv2000.database.entity.Genre;
 import com.tisv2000.database.entity.Movie;
 import com.tisv2000.database.repository.MovieRepository;
-import com.tisv2000.dto.MovieFilterDto;
+import com.tisv2000.dto.movie.MovieFilterDto;
 import com.tisv2000.integration.IntegrationTestBase;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.Arguments;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Stream;
@@ -80,16 +80,16 @@ public class MovieRepositoryTest extends IntegrationTestBase {
 
     public static Stream<Arguments> movieFilterDataProvider() {
         return Stream.of(
-                Arguments.of(buildMovieFilterDto("The Holiday", 2006, "the USA", "DRAMA"), 1),
-                Arguments.of(buildMovieFilterDto("", 2006, "the USA", "DRAMA"), 1),
-                Arguments.of(buildMovieFilterDto("The Holiday", null, "the USA", "DRAMA"), 1),
-                Arguments.of(buildMovieFilterDto("The Holiday", 2006, "", "DRAMA"), 1),
-                Arguments.of(buildMovieFilterDto("The Holiday", 2006, "the USA", ""), 1),
-                Arguments.of(buildMovieFilterDto(null, 2006, "the USA", ""), 1)
+                Arguments.of(buildMovieFilterDto("The Holiday", 2006, "the USA", Genre.DRAMA), 1),
+                Arguments.of(buildMovieFilterDto("", 2006, "the USA", Genre.DRAMA), 1),
+                Arguments.of(buildMovieFilterDto("The Holiday", null, "the USA", Genre.DRAMA), 1),
+                Arguments.of(buildMovieFilterDto("The Holiday", 2006, "", Genre.DRAMA), 1),
+                Arguments.of(buildMovieFilterDto("The Holiday", 2006, "the USA", null), 1),
+                Arguments.of(buildMovieFilterDto(null, 2006, "the USA", null), 1)
         );
     }
 
-    private static MovieFilterDto buildMovieFilterDto(String title, Integer year, String country, String genre) {
+    private static MovieFilterDto buildMovieFilterDto(String title, Integer year, String country, Genre genre) {
         return MovieFilterDto.builder()
                 .title(title)
                 .year(year)
