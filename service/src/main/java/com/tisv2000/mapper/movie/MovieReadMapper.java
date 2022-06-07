@@ -1,13 +1,18 @@
-package com.tisv2000.mapper;
+package com.tisv2000.mapper.movie;
 
 import com.tisv2000.database.entity.Movie;
-import com.tisv2000.dto.MovieReadDto;
+import com.tisv2000.dto.movie.MovieReadDto;
+import com.tisv2000.mapper.Mapper;
+import com.tisv2000.mapper.review.ReviewReadMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class MovieReadMapper implements Mapper<Movie, MovieReadDto>{
+public class MovieReadMapper implements Mapper<Movie, MovieReadDto> {
+
+    private final ReviewReadMapper reviewReadMapper;
+
     @Override
     public MovieReadDto map(Movie object) {
         return new MovieReadDto(
@@ -18,7 +23,7 @@ public class MovieReadMapper implements Mapper<Movie, MovieReadDto>{
                 object.getCountry(),
                 object.getGenre(),
                 object.getImage(),
-                object.getReviews()
+                object.getReviews().stream().map(reviewReadMapper::map).toList()
         );
     }
 }

@@ -3,7 +3,9 @@ package com.tisv2000.database.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@ToString(exclude = "reviews")
+@EqualsAndHashCode(exclude = "reviews")
 @Table(name = "movie")
 public class Movie implements EntityBase<Integer> {
     @Id

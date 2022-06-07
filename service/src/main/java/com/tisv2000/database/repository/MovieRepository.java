@@ -1,15 +1,8 @@
 package com.tisv2000.database.repository;
 
-import com.querydsl.jpa.impl.JPAQuery;
 import com.tisv2000.database.entity.Movie;
-import com.tisv2000.database.entity.QMovie;
-import com.tisv2000.database.querydsl.QPredicates;
-import com.tisv2000.dto.MovieFilterDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Optional;
 
 @Component
 public interface MovieRepository extends JpaRepository<Movie, Integer> {

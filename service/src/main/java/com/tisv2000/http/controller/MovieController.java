@@ -1,6 +1,6 @@
 package com.tisv2000.http.controller;
 
-import com.tisv2000.dto.MovieCreateEditDto;
+import com.tisv2000.dto.movie.MovieCreateEditDto;
 import com.tisv2000.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/movies")
 @RequiredArgsConstructor
 public class MovieController {
 
@@ -38,7 +37,6 @@ public class MovieController {
     }
 
     @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
     public String create(MovieCreateEditDto movie) {
         return "redirect:/users/" + movieService.create(movie);
     }

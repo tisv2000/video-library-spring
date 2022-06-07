@@ -1,10 +1,10 @@
 package com.tisv2000.service;
 
 import com.tisv2000.database.repository.MovieRepository;
-import com.tisv2000.dto.MovieCreateEditDto;
-import com.tisv2000.dto.MovieReadDto;
-import com.tisv2000.mapper.MovieCreateEditMapper;
-import com.tisv2000.mapper.MovieReadMapper;
+import com.tisv2000.dto.movie.MovieCreateEditDto;
+import com.tisv2000.dto.movie.MovieReadDto;
+import com.tisv2000.mapper.movie.MovieCreateEditMapper;
+import com.tisv2000.mapper.movie.MovieReadMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,10 +41,10 @@ public class MovieService {
                 .orElseThrow();
     }
 
-    // TODO 19:30 пересмотреть
     @Transactional
     public Optional<MovieReadDto> update(Integer id, MovieCreateEditDto movieDto) {
         return movieRepository.findById(id)
+                // closure
                 .map(entity -> movieCreateEditMapper.map(movieDto, entity))
                 .map(movieRepository::saveAndFlush)
                 .map(movieReadMapper::map);
@@ -54,10 +54,11 @@ public class MovieService {
     public boolean delete(Integer id) {
         return movieRepository.findById(id)
                 .map(entity -> {
-                    movieRepository.delete(entity);
-                    movieRepository.flush();
-                    return true;
-                })
+                            movieRepository.delete(entity);
+                            movieRepository.flush();
+                            return true;
+                        }
+                )
                 .orElse(false);
     }
 }

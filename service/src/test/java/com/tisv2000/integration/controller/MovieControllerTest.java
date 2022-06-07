@@ -1,13 +1,13 @@
 package com.tisv2000.integration.controller;
 
-import com.tisv2000.dto.MovieCreateEditDto.Fields;
+import com.tisv2000.dto.movie.MovieCreateEditDto.Fields;
 import com.tisv2000.integration.IntegrationTestBase;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.tisv2000.dto.MovieCreateEditDto.Fields.title;
+import static com.tisv2000.dto.movie.MovieCreateEditDto.Fields.title;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
