@@ -4,6 +4,7 @@ import com.tisv2000.database.entity.Gender;
 import com.tisv2000.database.entity.Role;
 import lombok.Value;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Value
@@ -12,6 +13,9 @@ public class UserCreateEditDto {
     Gender gender;
     LocalDate birthdate;
     String name;
-    String password;
+
+//    TODO добавить валидацию для всех полей и сюда @NotBlank(groups = CreateAction.class)
+    String rawPassword;
+
     String email;
 }

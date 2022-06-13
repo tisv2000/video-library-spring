@@ -1,7 +1,9 @@
 package com.tisv2000.http.controller;
 
 import com.tisv2000.dto.movie.MovieCreateEditDto;
+import com.tisv2000.dto.movie.MovieFilterDto;
 import com.tisv2000.service.MovieService;
+import com.tisv2000.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -19,10 +21,11 @@ import org.springframework.web.server.ResponseStatusException;
 public class MovieController {
 
     private final MovieService movieService;
+    private final ReviewService reviewService;
 
     @GetMapping
-    public String findALl(Model model) {
-        model.addAttribute("movies", movieService.findAll());
+    public String findAllByFilter(Model model, @ModelAttribute("movieFilterDto") MovieFilterDto movieFilterDto) {
+        model.addAttribute("movies", movieService.findAllByFilter(movieFilterDto));
         return "movie/movies";
     }
 
@@ -31,6 +34,7 @@ public class MovieController {
         return movieService.findById(id)
                 .map(movie -> {
                     model.addAttribute("movie", movie);
+                    model.addAttribute("reviews", reviewService.findAllByMovieId(movie.getId()));
                     return "movie/movie";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

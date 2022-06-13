@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie</title>
+</head>
+<h3 style="color: darkcyan;margin-left:20px">Register</h3>
+<body>
+    <form action="/registration" method="post">
+        <label>Name:
+            <input id="username" type="text" name="username">
+        </label> <br>
+        <label>Birthdate:
+            <input id="birthdateId" type="date" name="birthdate">
+        </label> <br>
+        <label>Email:
+            <input id="emailId" type="email" name="email">
+        </label> <br>
+        <label>Password:
+            <input id="rawPasswordId" type="password" name="rawPassword">
+        </label> <br>
+        <label>Gender: </label> <br>
+        <div th:each="gender: ${genders}">
+            <label>
+                <input th:id="${gender}" type="radio" name="gender" th:value="${gender}">
+            </label>
+        </div> <br>
+        <div th:each="role: ${roles}">
+            <label th:for="roleId">
+                <input th:id="${role}" type="radio" name="role" th:value="${role}">
+            </label>
+        </div> <br>
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>

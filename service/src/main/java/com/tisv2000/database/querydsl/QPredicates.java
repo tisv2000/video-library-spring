@@ -2,6 +2,7 @@ package com.tisv2000.database.querydsl;
 
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.Expressions;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -26,7 +27,7 @@ public class QPredicates {
     }
 
     public Predicate build() {
-        return ExpressionUtils.allOf(predicates);
+        return predicates.isEmpty() ? Expressions.asBoolean(true ).isTrue() : ExpressionUtils.allOf(predicates);
     }
 
     public Predicate buildOr() {

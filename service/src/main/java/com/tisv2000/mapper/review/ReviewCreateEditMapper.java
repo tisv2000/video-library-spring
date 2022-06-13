@@ -1,12 +1,19 @@
 package com.tisv2000.mapper.review;
 
 import com.tisv2000.database.entity.Review;
+import com.tisv2000.database.repository.MovieRepository;
+import com.tisv2000.database.repository.UserRepository;
 import com.tisv2000.dto.review.ReviewCreateEditDto;
 import com.tisv2000.mapper.Mapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ReviewCreateEditMapper implements Mapper<ReviewCreateEditDto, Review> {
+
+    private final MovieRepository movieRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Review map(ReviewCreateEditDto fromObject, Review toObject) {
@@ -22,8 +29,15 @@ public class ReviewCreateEditMapper implements Mapper<ReviewCreateEditDto, Revie
     }
 
     private void copy(ReviewCreateEditDto reviewDto, Review review) {
-        review.setMovie(reviewDto.getMovie());
-        review.setUser(reviewDto.getUser());
+        review.setMovie(
+                movieRepository
+                        .findById(reviewDto.getMovieId())
+                        .orElseThrow());
+        // TODO правильно ли тут бросать исключение?
+        review.setUser(
+                userRepository
+                        .findById(reviewDto.getUserId())
+                        .orElseThrow());
         review.setRate(reviewDto.getRate());
         review.setText(reviewDto.getText());
     }

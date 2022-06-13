@@ -1,7 +1,9 @@
 package com.tisv2000.service;
 
+import com.tisv2000.database.querydsl.QPredicates;
 import com.tisv2000.database.repository.MovieRepository;
 import com.tisv2000.dto.movie.MovieCreateEditDto;
+import com.tisv2000.dto.movie.MovieFilterDto;
 import com.tisv2000.dto.movie.MovieReadDto;
 import com.tisv2000.mapper.movie.MovieCreateEditMapper;
 import com.tisv2000.mapper.movie.MovieReadMapper;
@@ -11,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static com.tisv2000.database.entity.QMovie.movie;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +28,19 @@ public class MovieService {
 
     public List<MovieReadDto> findAll() {
         return movieRepository.findAll().stream()
+                .map(movieReadMapper::map)
+                .toList();
+    }
+
+    public List<MovieReadDto> findAllByFilter(MovieFilterDto movieFilterDto) {
+        var predicate = QPredicates.builder()
+                .add(movieFilterDto.getTitle(), movie.country::containsIgnoreCase)
+                .add(movieFilterDto.getYear(), movie.year::eq)
+                .add(movieFilterDto.getCountry(), movie.country::containsIgnoreCase)
+                .add(movieFilterDto.getGenre(), movie.genre::eq)
+                .build();
+        return StreamSupport
+                .stream(movieRepository.findAll(predicate).spliterator(), false)
                 .map(movieReadMapper::map)
                 .toList();
     }

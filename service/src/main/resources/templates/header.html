@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Library</title>
+</head>
+<body>
+    <div th:fragment="header">
+        <div style="float:left;margin-left:20px">
+            <a href="/movies">| Movies |</a>
+
+            <a href="/persons">| Persons |</a>
+
+            <a href="/myReviews">| My reviews |</a>
+        </div>
+
+        <div style="float:right">
+            <a href="/logout" style="margin-left: 20px;margin-right: 20px">Log out</a>
+        </div>
+        <br>
+    </div>
+</body>

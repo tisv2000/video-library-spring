@@ -32,8 +32,13 @@ public class ReviewService {
                 .map(reviewReadMapper::map);
     }
 
+    public List<ReviewReadDto> findAllByMovieId(Integer id) {
+        return reviewRepository.findAllByMovieId(id).stream()
+                .map(reviewReadMapper::map)
+                .toList();
+    }
+
     public ReviewReadDto create(ReviewCreateEditDto reviewCreateEditDto) {
-        // в чем разница между Optional.of() и Optional.ofNullable()
         return Optional.of(reviewCreateEditDto)
                 .map(reviewCreateEditMapper::map)
                 .map(reviewRepository::save)

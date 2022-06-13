@@ -6,8 +6,27 @@
 </head>
 
 <body>
-<div th:each="movie : ${movies}">
-    <a th:href="@{'/movies/' + ${movie.id }}" th:text="${movie.title}">Movie</a>
-</div>
+<!--не работает так почему-то :( ругается, что этот мой header.html не может найти-->
+    <div th:insert="~{fragment :: header}"></div>
+    <h1>Movie filter</h1>
+    <form th:action="@{/movies}" method="get">
+        <label>Title:
+            <input type="text" name="title">
+        </label>
+        <label>Year:
+            <input type="number" name="year">
+        </label>
+        <label>Country:
+            <input type="text" name="country">
+        </label>
+        <label>Genre:
+            <input type="text" name="genre">
+        </label> <br>
+        <button type="submit">Filter</button>
+    </form>
+
+    <div th:each="movie : ${movies}">
+        <a th:href="@{'/movies/' + ${movie.id }}" th:text="${movie.title}">Movie</a>
+    </div>
 </body>
 </html>

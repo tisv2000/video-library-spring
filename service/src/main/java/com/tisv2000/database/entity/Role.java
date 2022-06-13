@@ -1,6 +1,14 @@
 package com.tisv2000.database.entity;
 
-public enum Role {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
     USER,
-    ADMIN
+    ADMIN;
+
+    // зачем это надо?
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }
