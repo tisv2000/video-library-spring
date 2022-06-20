@@ -38,6 +38,11 @@ public class UserService implements UserDetailsService {
                 .map(userReadMapper::map);
     }
 
+    public Optional<UserReadDto> findByName(String name) {
+        return userRepository.findByName(name)
+                .map(userReadMapper::map);
+    }
+
     public UserReadDto create(UserCreateEditDto user) {
         return Optional.of(user)
                 .map(userCreateEditMapper::map)
@@ -65,7 +70,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByName(username)
+        return userRepository.findByEmail(username)
                 .map(user -> new User(
                         user.getName(),
                         user.getPassword(),

@@ -14,6 +14,21 @@
 </div>
 
 <h2 style="margin-left: 20px;align-content: center;margin-left: 50px">Reviews</h2>
+<form style="margin-left: 20px;align-content: center;margin-left: 50px" th:action="@{/reviews}" method="post">
+    <label>Rate:
+        <input type="number" name="rate">
+    </label>
+    <label>Description:
+        <input type="text" name="text">
+    </label>
+    <label>
+        <input type="number" name="userId" th:value="${user.id}" hidden>
+    </label>
+    <label>
+        <input type="number" name="movieId" th:value="${movie.id}" hidden>
+    </label>
+    <button type="submit">Add review</button>
+</form>
 <div style="margin-left: 20px">
     <table>
         <tr>
