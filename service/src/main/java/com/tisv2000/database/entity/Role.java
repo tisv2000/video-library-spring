@@ -6,7 +6,6 @@ public enum Role implements GrantedAuthority {
     USER,
     ADMIN;
 
-    // зачем это надо?
     @Override
     public String getAuthority() {
         return name();

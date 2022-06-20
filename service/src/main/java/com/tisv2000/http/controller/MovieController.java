@@ -4,8 +4,11 @@ import com.tisv2000.dto.movie.MovieCreateEditDto;
 import com.tisv2000.dto.movie.MovieFilterDto;
 import com.tisv2000.service.MovieService;
 import com.tisv2000.service.ReviewService;
+import com.tisv2000.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +25,7 @@ public class MovieController {
 
     private final MovieService movieService;
     private final ReviewService reviewService;
+    private final UserService userService;
 
     @GetMapping
     public String findAllByFilter(Model model, @ModelAttribute("movieFilterDto") MovieFilterDto movieFilterDto) {
@@ -31,10 +35,12 @@ public class MovieController {
 
     @GetMapping("/{id}")
     public String findById(@PathVariable("id") Integer id, Model model) {
+        var username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         return movieService.findById(id)
                 .map(movie -> {
                     model.addAttribute("movie", movie);
                     model.addAttribute("reviews", reviewService.findAllByMovieId(movie.getId()));
+                    model.addAttribute("user", userService.findByName(username).get());
                     return "movie/movie";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -42,7 +48,7 @@ public class MovieController {
 
     @PostMapping
     public String create(MovieCreateEditDto movie) {
-        return "redirect:/users/" + movieService.create(movie);
+        return "redirect:/users/" + movieService.create(movie).getId();
     }
 
     @PostMapping("/{id}/update")

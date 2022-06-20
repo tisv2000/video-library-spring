@@ -33,7 +33,6 @@ public class ReviewCreateEditMapper implements Mapper<ReviewCreateEditDto, Revie
                 movieRepository
                         .findById(reviewDto.getMovieId())
                         .orElseThrow());
-        // TODO правильно ли тут бросать исключение?
         review.setUser(
                 userRepository
                         .findById(reviewDto.getUserId())

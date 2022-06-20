@@ -19,4 +19,13 @@
         </div>
         <br>
     </div>
+    <div th:fragment="locale">
+        <form action="">
+            <select name="lang" onchange="this.form.submit()">
+                <option value="en">EN</option>
+                <option value="ru">RU</option>
+            </select>
+        </form>
+
+    </div>
 </body>

@@ -6,23 +6,23 @@
 </head>
 
 <body>
-<!--не работает так почему-то :( ругается, что этот мой header.html не может найти-->
     <div th:insert="~{fragment :: header}"></div>
-    <h1>Movie filter</h1>
+    <div th:insert="~{fragment :: locale}"></div>
+    <h1 th:text="#{movie.filterTitle}">Movie filter</h1>
     <form th:action="@{/movies}" method="get">
-        <label>Title:
+        <label><span th:text="#{movie.title}">Title:</span>
             <input type="text" name="title">
         </label>
-        <label>Year:
+        <label><span th:text="|#{movie.year}:|">Year:</span>
             <input type="number" name="year">
         </label>
-        <label>Country:
+        <label><span th:text="#{movie.country}">Country:</span>
             <input type="text" name="country">
         </label>
-        <label>Genre:
+        <label><span th:text="#{movie.genre}">Genre:</span>
             <input type="text" name="genre">
         </label> <br>
-        <button type="submit">Filter</button>
+        <button type="submit" th:text="#{movie.filterButton}">Filter</button>
     </form>
 
     <div th:each="movie : ${movies}">
