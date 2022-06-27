@@ -16,8 +16,8 @@ public class ReviewController {
 
     @PostMapping
     public String create(ReviewCreateEditDto reviewCreateEditDto) {
-        // можно ли как-то получить movie id из предыдущего контроллера, передав его сюда параметром?
-        return "redirect:/movies/" + reviewService.create(reviewCreateEditDto).getMovieId();
+        // временно пока не решу проблему с циклической зависимостью
+        return "redirect:/movies/"; // + reviewService.create(reviewCreateEditDto).getMovie().getId();
     }
 
 }

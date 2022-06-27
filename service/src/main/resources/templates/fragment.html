@@ -15,6 +15,7 @@
         </div>
 
         <div style="float:right">
+            <a th:href="@{'/users/' + ${#authentication.principal.id} }" style="margin-left: 20px;margin-right: 20px" th:text="${#authentication.principal.username}">Username</a>
             <a href="/logout" style="margin-left: 20px;margin-right: 20px">Log out</a>
         </div>
         <br>

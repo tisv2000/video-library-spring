@@ -1,12 +1,12 @@
 package com.tisv2000.service;
 
 import com.tisv2000.database.repository.UserRepository;
+import com.tisv2000.dto.user.AdaptedUserDetails;
 import com.tisv2000.dto.user.UserCreateEditDto;
 import com.tisv2000.dto.user.UserReadDto;
 import com.tisv2000.mapper.user.UserCreateEditMapper;
 import com.tisv2000.mapper.user.UserReadMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -71,10 +71,10 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
-                .map(user -> new User(
+                .map(user -> new AdaptedUserDetails(
+                        user.getId(),
                         user.getName(),
                         user.getPassword(),
-                        // TODO вспомнить про Collections.singleton
                         Collections.singleton(user.getRole())
                 )).orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + username));
     }

@@ -22,7 +22,7 @@
         <label><span th:text="#{movie.genre}">Genre:</span>
             <input type="text" name="genre">
         </label> <br>
-        <button type="submit" th:text="#{movie.filterButton}">Filter</button>
+        <button type="submit" th:text="#{filterButton}">Filter</button>
     </form>
 
     <div th:each="movie : ${movies}">

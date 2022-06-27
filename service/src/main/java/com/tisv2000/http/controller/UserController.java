@@ -1,7 +1,6 @@
 package com.tisv2000.http.controller;
 
 import com.tisv2000.database.entity.Gender;
-import com.tisv2000.database.entity.Genre;
 import com.tisv2000.database.entity.Role;
 import com.tisv2000.dto.user.UserCreateEditDto;
 import com.tisv2000.service.UserService;

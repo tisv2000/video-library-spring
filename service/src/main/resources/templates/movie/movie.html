@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>Movie</title>
 </head>
-<h2 style="margin-left: 20px;color: blueviolet">Movie details</h2>
 <body>
+<div th:insert="~{fragment :: header}"></div>
+<h1 style="margin-left: 20px;color: blueviolet">Movie details</h1>
 <div style="margin-left: 20px;align-content:center;margin-right: 50px">
     <span th:text="|Title: ${movie.title}|">title</span> <br>
     <span th:text="|Year: ${movie.year}|">title</span> <br>

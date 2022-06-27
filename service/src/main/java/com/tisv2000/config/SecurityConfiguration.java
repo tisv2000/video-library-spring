@@ -23,7 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login"))
                 .formLogin(login -> login
-                        .loginPage("/login").usernameParameter("nameTest")
+                        .loginPage("/login").usernameParameter("username")
                         .defaultSuccessUrl("/movies"));
     }
 
