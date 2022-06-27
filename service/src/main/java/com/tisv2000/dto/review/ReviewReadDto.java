@@ -1,5 +1,6 @@
 package com.tisv2000.dto.review;
 
+import com.tisv2000.dto.movie.MovieReadDto;
 import com.tisv2000.dto.user.UserReadDto;
 import lombok.Value;
 
@@ -7,7 +8,7 @@ import lombok.Value;
 public class ReviewReadDto {
     Integer id;
     UserReadDto user;
-    Integer movieId;
+//    MovieReadDto movie;
     String text;
     Integer rate;
 }

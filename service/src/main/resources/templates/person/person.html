@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Persons</title>
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<h1 style="margin-left: 20px;color: blueviolet">Person details</h1>
+<div style="margin-left: 20px;align-content:center;margin-right: 50px">
+    <span th:text="|Name: ${person.name}|">name</span> <br>
+    <span th:text="|Birthday: ${person.birthday}|">birthday</span> <br>
+</div>
+</body>
+</html>

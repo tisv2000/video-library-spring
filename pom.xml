@@ -52,6 +52,12 @@
                 <version>${springdoc.opeinapi.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.thymeleaf.extras</groupId>
+                <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+                <version>3.0.4.RELEASE</version>
+            </dependency>
+
             <!-- This model is used by criteria api -->
             <dependency>
                 <groupId>org.hibernate</groupId>

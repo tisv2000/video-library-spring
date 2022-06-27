@@ -7,6 +7,7 @@ import com.tisv2000.service.ReviewService;
 import com.tisv2000.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -25,22 +26,20 @@ public class MovieController {
 
     private final MovieService movieService;
     private final ReviewService reviewService;
-    private final UserService userService;
 
     @GetMapping
-    public String findAllByFilter(Model model, @ModelAttribute("movieFilterDto") MovieFilterDto movieFilterDto) {
+    public String findAllByFilter(Model model, @ModelAttribute("movieFilterDto") MovieFilterDto movieFilterDto, @AuthenticationPrincipal UserDetails userDetails) {
         model.addAttribute("movies", movieService.findAllByFilter(movieFilterDto));
         return "movie/movies";
     }
 
     @GetMapping("/{id}")
-    public String findById(@PathVariable("id") Integer id, Model model) {
-        var username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+    public String findById(@PathVariable("id") Integer id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         return movieService.findById(id)
                 .map(movie -> {
                     model.addAttribute("movie", movie);
                     model.addAttribute("reviews", reviewService.findAllByMovieId(movie.getId()));
-                    model.addAttribute("user", userService.findByName(username).get());
+                    model.addAttribute("user", userDetails);
                     return "movie/movie";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
