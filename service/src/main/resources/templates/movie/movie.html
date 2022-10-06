@@ -6,44 +6,109 @@
 </head>
 <body>
 <div th:insert="~{fragment :: header}"></div>
-<h1 style="margin-left: 20px;color: blueviolet">Movie details</h1>
-<div style="margin-left: 20px;align-content:center;margin-right: 50px">
-    <span th:text="|Title: ${movie.title}|">title</span> <br>
-    <span th:text="|Year: ${movie.year}|">title</span> <br>
-    <span th:text="|Country: ${movie.country}|">title</span> <br>
-    <span th:text="|Description: ${movie.description}|">title</span> <br>
-</div>
+<div style="margin-left: 20px;margin-right: 20px;">
+    <h1 style="color: blueviolet">Movie details</h1>
+    <div>
+        <img th:src="@{/api/v1/movies/{movieId}/avatar(movieId=${movie.id})}" alt="User image"
+             high="auto" width="50%"
+             style="float:left;margin-left: 20px;margin-right: 10px">
+        <br>
+        <div style="align-content:center">
+            <b><span>Title: </span></b>
+            <span th:text="${movie.title}"></span> <br>
+            <b><span>Year: </span></b>
+            <span th:text="${movie.year}"></span> <br>
+            <b><span>Country: </span></b>
+            <span th:text="${movie.country}"></span> <br>
+            <b><span>Description: </span></b>
+            <span th:text="${movie.description}"></span> <br>
+        </div>
+    </div> <br>
+    <div>
+        <h2 style="color: blueviolet">Movie persons</h2>
+        <table>
+            <tr th:if="${moviePersons!=null and !moviePersons.empty}">
+                <th>Person</th>
+                <th>Role</th>
+            </tr>
+            <tr th:each="moviePerson: ${moviePersons}">
+                <td>
+                    <a th:href="@{'/persons/' + ${moviePerson.person.id}}" th:text="${moviePerson.person.name}">text</a>
 
-<h2 style="margin-left: 20px;align-content: center;margin-left: 50px">Reviews</h2>
-<form style="margin-left: 20px;align-content: center;margin-left: 50px" th:action="@{/reviews}" method="post">
-    <label>Rate:
-        <input type="number" name="rate">
-    </label>
-    <label>Description:
-        <input type="text" name="text">
-    </label>
-    <label>
-        <input type="number" name="userId" th:value="${user.id}" hidden>
-    </label>
-    <label>
-        <input type="number" name="movieId" th:value="${movie.id}" hidden>
-    </label>
-    <button type="submit">Add review</button>
-</form>
-<div style="margin-left: 20px">
-    <table>
-        <tr>
-            <th>Rate</th>
-            <th>Text</th>
-            <th>User Name</th>
-        </tr>
-        <tr th:each="review: ${reviews}">
-            <td th:text="${review.rate}">text</td>
-            <td th:text="${review.text}">text</td>
-            <td th:text="${review.user.name}">text</td>
+                </td>
+                <td th:text="${moviePerson.role}">text</td>
+            </tr>
+        </table>
+    </div>
+    <div th:if="${#authentication.principal.hasRole('ADMIN')}">
+        <h2 style="color: blueviolet">Add movie person</h2>
+        <form th:action="@{'/movies/' + ${movie.id}}" method="post">
+            <label for="personId">Person:
+                <select name="personId" id="personId">
+                    <option value="" disabled selected>Select person</option>
+                    <div th:each="person: ${persons}">
+                        <option th:text="${person.name}" name="personId" th:value="${person.id}"></option>
+                    </div>
+                </select> <br>
+            </label>
+            <label for="roleId">Role:
+                <select name="role" id="roleId">
+                    <option value="" disabled selected>Select role</option>
+                    <div th:each="personRole: ${personRoles}">
+                        <option th:text="${personRole}" name="role" th:value="${personRole}"></option>
+                    </div>
+                </select> <br>
+            </label>
+            <input hidden name="movieId" th:value="${movie.id}">
+            <!--                <input hidden name="addMoviePersonMode" value="true">-->
+            <button type="submit" style="color: blueviolet">Add person</button>
+            <br>
+            <!--                <%&#45;&#45;        TODO How to do this?&#45;&#45;%>-->
+            <div th:if="${moviePersonsErrors}">
+                <div style="color: red" th:each="moviePersonsError : ${moviePersonsErrors}" th:text="${moviePersonsError.defaultMessage}"
+                     |>Error Message
+                </div>
+            </div>
+        </form>
+    </div> <br>
 
-        </tr>
-    </table>
+    <h2 style="color: blueviolet">Reviews</h2>
+    <form th:action="@{/reviews}" method="post">
+        <label>Rate:
+            <input name="rate" type="range" min="1" max="10" th:value="${review.rate}">
+        </label>
+        <label>Description:
+            <input type="text" name="text" th:value="${review.text}">
+        </label>
+        <label>
+            <input type="number" name="userId" th:value="${user.id}" hidden>
+        </label>
+        <label>
+            <input type="number" name="movieId" th:value="${movie.id}" hidden>
+        </label>
+        <button type="submit" style="color: blueviolet">Add review</button>
+    </form>
+    <div th:if="${reviewErrors}">
+        <div style="color: red" th:each="reviewError : ${reviewErrors}" th:text="${reviewError.defaultMessage}" |>Error
+            Message
+        </div>
+    </div>
+    <br>
+    <div style="align-content:center">
+        <table>
+            <tr th:if="${reviews!=null and !reviews.empty}">
+                <th>Rate</th>
+                <th>Text</th>
+                <th>User Name</th>
+            </tr>
+            <tr th:each="review: ${reviews}">
+                <td th:text="${review.rate}">text</td>
+                <td th:text="${review.text}">text</td>
+                <td th:text="${review.user.name}">text</td>
+
+            </tr>
+        </table>
+    </div>
 </div>
 </body>
 </html>

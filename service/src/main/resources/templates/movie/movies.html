@@ -6,27 +6,71 @@
 </head>
 
 <body>
-    <div th:insert="~{fragment :: header}"></div>
+<div th:insert="~{fragment :: header}"></div>
+<div style="margin-left: 20px;margin-right: 20px;">
     <div th:insert="~{fragment :: locale}"></div>
-    <h1 th:text="#{movie.filterTitle}">Movie filter</h1>
-    <form th:action="@{/movies}" method="get">
-        <label><span th:text="#{movie.title}">Title:</span>
-            <input type="text" name="title">
-        </label>
-        <label><span th:text="|#{movie.year}:|">Year:</span>
-            <input type="number" name="year">
-        </label>
-        <label><span th:text="#{movie.country}">Country:</span>
-            <input type="text" name="country">
-        </label>
-        <label><span th:text="#{movie.genre}">Genre:</span>
-            <input type="text" name="genre">
-        </label> <br>
-        <button type="submit" th:text="#{filterButton}">Filter</button>
-    </form>
+    <div style="background-color: mediumpurple">
+        <h1 th:text="#{movie.filterTitle}">Movie filter</h1>
+        <form th:action="@{/movies}" method="get">
+            <label><span th:text="|#{movie.title}:|">Title:</span>
+                <input type="text" name="title" th:value="${movieFilter.title}">
+            </label>
+            <label><span th:text="|#{movie.year}:|">Year:</span>
+                <input type="number" name="year" th:value="${movieFilter.year}">
+            </label>
+            <label><span th:text="|#{movie.country}:|">Country:</span>
+                <input type="text" name="country" th:value="${movieFilter.country}">
+            </label>
+            <label th:text="|#{movie.genre}:|">Genre: </label>
+            <select name="genre">
+                <option value="" disabled selected>Select your option</option>
+                <div th:each="genre: ${genres}">
+                    <option th:text="${genre}" name="genre" th:value="${genre}"></option>
+                </div>
+            </select> <br>
+            <button type="submit" th:text="#{filterButton}">Filter</button>
+        </form>
+        <br> <br>
+    </div>
 
+    <div th:if="${#authentication.principal.hasRole('ADMIN')}">
+        <h3 th:text="#{movie.addNewMovie}" style="color: blueviolet">Add a new movie</h3>
+        <form th:action="@{/movies}" method="post" enctype="multipart/form-data">
+            <label>Title:
+                <input type="text" name="newTitle" th:value="${newMovie.newTitle}">
+            </label><br>
+            <label>Country:
+                <input type="text" name="newCountry" th:value="${newMovie.newCountry}">
+            </label><br>
+            <label>Release year:
+                <input type="text" name="newYear" th:value="${newMovie.newYear}">
+            </label><br>
+            <label>Genre: </label> <br>
+            <select name="newGenre">
+                <option value="" disabled selected>Select your option</option>
+                <div th:each="genre: ${genres}">
+                    <option th:text="${genre}" name="newGenre" th:value="${genre}"></option>
+                </div>
+            </select> <br>
+            <label>Description:
+                <input type="text" name="newDescription" th:value="${newMovie.newDescription}">
+            </label><br>
+            <label>Image:
+                <input type="file" name="newImage">
+            </label><br>
+            <button type="submit" style="color: blueviolet">Add movie</button>
+            <br>
+        </form>
+        <div th:if="${errors}">
+            <div style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}" |>Error Message</div>
+            <br>
+        </div>
+    </div>
+
+    <h3 th:text="#{movie.moviesList}" style="color: blueviolet">Movies List</h3>
     <div th:each="movie : ${movies}">
         <a th:href="@{'/movies/' + ${movie.id }}" th:text="${movie.title}">Movie</a>
     </div>
+</div>
 </body>
 </html>

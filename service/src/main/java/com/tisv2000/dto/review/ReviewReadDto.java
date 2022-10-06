@@ -8,7 +8,7 @@ import lombok.Value;
 public class ReviewReadDto {
     Integer id;
     UserReadDto user;
-//    MovieReadDto movie;
+    MovieReadDto movie;
     String text;
     Integer rate;
 }

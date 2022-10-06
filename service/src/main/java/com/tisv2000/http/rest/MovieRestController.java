@@ -38,6 +38,12 @@ public class MovieRestController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/{id}/avatar")
+    public byte[] findAvatar(@PathVariable("id") Integer id) {
+        return movieService.findAvatar(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public MovieReadDto create(@RequestBody MovieCreateEditDto movie) {

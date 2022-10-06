@@ -1,8 +1,13 @@
 package com.tisv2000.service;
 
+import com.tisv2000.database.entity.QUser;
+import com.tisv2000.database.querydsl.QPredicates;
 import com.tisv2000.database.repository.UserRepository;
+import com.tisv2000.dto.movie.MovieFilterDto;
+import com.tisv2000.dto.movie.MovieReadDto;
 import com.tisv2000.dto.user.AdaptedUserDetails;
 import com.tisv2000.dto.user.UserCreateEditDto;
+import com.tisv2000.dto.user.UserFilterDto;
 import com.tisv2000.dto.user.UserReadDto;
 import com.tisv2000.mapper.user.UserCreateEditMapper;
 import com.tisv2000.mapper.user.UserReadMapper;
@@ -16,6 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static com.tisv2000.database.entity.QMovie.movie;
+import static com.tisv2000.database.entity.QUser.*;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +45,18 @@ public class UserService implements UserDetailsService {
     public Optional<UserReadDto> findById(Integer id) {
         return userRepository.findById(id)
                 .map(userReadMapper::map);
+    }
+
+    public List<UserReadDto> findAllByFilter(UserFilterDto userFilterDto) {
+        var predicate = QPredicates.builder()
+                .add(userFilterDto.getName(), user.name::containsIgnoreCase)
+                .add(userFilterDto.getBirthdate(), user.birthdate::eq)
+                .add(userFilterDto.getEmail(), user.email::containsIgnoreCase)
+                .build();
+        return StreamSupport
+                .stream(userRepository.findAll(predicate).spliterator(), false)
+                .map(userReadMapper::map)
+                .toList();
     }
 
     public Optional<UserReadDto> findByName(String name) {

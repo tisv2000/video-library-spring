@@ -1,5 +1,6 @@
 package com.tisv2000.service;
 
+import com.tisv2000.database.entity.Movie;
 import com.tisv2000.database.querydsl.QPredicates;
 import com.tisv2000.database.repository.MovieRepository;
 import com.tisv2000.dto.movie.MovieCreateEditDto;
@@ -8,8 +9,11 @@ import com.tisv2000.dto.movie.MovieReadDto;
 import com.tisv2000.mapper.movie.MovieCreateEditMapper;
 import com.tisv2000.mapper.movie.MovieReadMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +29,7 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieReadMapper movieReadMapper;
     private final MovieCreateEditMapper movieCreateEditMapper;
+    private final ImageService imageService;
 
     public List<MovieReadDto> findAll() {
         return movieRepository.findAll().stream()
@@ -50,13 +55,30 @@ public class MovieService {
                 .map(movieReadMapper::map);
     }
 
+    public Optional<byte[]> findAvatar(Integer id) {
+        return movieRepository.findById(id)
+                .map(Movie::getImage)
+                .filter(StringUtils::hasText)
+                .flatMap(imageService::get);
+    }
+
     @Transactional
     public MovieReadDto create(MovieCreateEditDto movieDto) {
         return Optional.of(movieDto)
-                .map(movieCreateEditMapper::map)
+                .map(dto -> {
+                    uploadImage(dto.getNewImage());
+                    return movieCreateEditMapper.map(dto);
+                })
                 .map(movieRepository::save)
                 .map(movieReadMapper::map)
                 .orElseThrow();
+    }
+
+    @SneakyThrows
+    private void uploadImage(MultipartFile image) {
+        if (!image.isEmpty()) {
+            imageService.upload(image.getOriginalFilename(), image.getInputStream());
+        }
     }
 
     @Transactional

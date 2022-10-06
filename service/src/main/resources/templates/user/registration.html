@@ -4,33 +4,36 @@
     <meta charset="UTF-8">
     <title>Movie</title>
 </head>
-<h3 style="color: darkcyan;margin-left:20px">Register</h3>
+<h3 style="color: blueviolet;margin-left:20px">Register</h3>
 <body>
-    <form action="/registration" method="post">
+    <form action="/registration" method="post" style="margin-left: 20px;">
         <label>Name:
-            <input id="username" type="text" name="username">
+            <input id="username" type="text" name="username" th:value="${user.username}">
         </label> <br>
         <label>Birthdate:
-            <input id="birthdateId" type="date" name="birthdate">
+            <input id="birthdateId" type="date" name="birthdate" th:value="${user.birthdate}">
         </label> <br>
         <label>Email:
-            <input id="emailId" type="email" name="email">
+            <input id="emailId" type="email" name="email" th:value="${user.email}">
         </label> <br>
         <label>Password:
-            <input id="rawPasswordId" type="password" name="rawPassword">
+            <input id="rawPasswordId" type="password" name="rawPassword" value="">
         </label> <br>
         <label>Gender: </label> <br>
         <div th:each="gender: ${genders}">
             <label>
-                <input th:id="${gender}" type="radio" name="gender" th:value="${gender}">
+                <input th:id="${gender}" th:text="${gender}" type="radio" name="gender" th:value="${gender}">
             </label>
         </div> <br>
         <div th:each="role: ${roles}">
-            <label th:for="roleId">
-                <input th:id="${role}" type="radio" name="role" th:value="${role}">
+            <label>
+                <input th:id="${role}" th:text="${role}" type="radio" name="role" th:value="${role}">
             </label>
         </div> <br>
-        <button type="submit">Register</button>
+        <button type="submit" style="color: blueviolet">Register</button>
+        <div th:if="${errors}">
+            <div style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error Message</div>
+        </div>
     </form>
 </body>
 </html>

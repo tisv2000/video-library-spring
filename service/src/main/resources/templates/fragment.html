@@ -11,7 +11,8 @@
 
             <a href="/persons">| Persons |</a>
 
-            <a href="/myReviews">| My reviews |</a>
+<!--            <a th:if="${#authorization.expression()  == 'ADMIN'}" href="/users">| Users |</a>-->
+            <a th:if="${#authentication.principal.hasRole('ADMIN')}" href="/users">| Users |</a>
         </div>
 
         <div style="float:right">
@@ -23,6 +24,7 @@
     <div th:fragment="locale">
         <form action="">
             <select name="lang" onchange="this.form.submit()">
+                <option value=""></option>
                 <option value="en">EN</option>
                 <option value="ru">RU</option>
             </select>

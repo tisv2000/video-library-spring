@@ -4,6 +4,9 @@ import com.tisv2000.database.entity.Movie;
 import com.tisv2000.dto.movie.MovieCreateEditDto;
 import com.tisv2000.mapper.Mapper;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Optional;
 
 @Component
 public class MovieCreateEditMapper implements Mapper<MovieCreateEditDto, Movie> {
@@ -22,11 +25,14 @@ public class MovieCreateEditMapper implements Mapper<MovieCreateEditDto, Movie> 
     }
 
     private void copy(MovieCreateEditDto object, Movie movie) {
-        movie.setTitle(object.getTitle());
-        movie.setYear(object.getYear());
-        movie.setDescription(object.getDescription());
-        movie.setCountry(object.getCountry());
-        movie.setGenre(object.getGenre());
-        movie.setImage(object.getImage());
+        movie.setTitle(object.getNewTitle());
+        movie.setYear(object.getNewYear());
+        movie.setDescription(object.getNewDescription());
+        movie.setCountry(object.getNewCountry());
+        movie.setGenre(object.getNewGenre());
+
+        Optional.ofNullable(object.getNewImage())
+                .filter(image -> !image.isEmpty())
+                .ifPresent(image -> movie.setImage(image.getOriginalFilename()));
     }
 }

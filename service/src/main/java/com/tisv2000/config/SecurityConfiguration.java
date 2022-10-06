@@ -1,5 +1,6 @@
 package com.tisv2000.config;
 
+import com.tisv2000.database.entity.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -16,7 +17,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(urlConfig -> urlConfig
-                        .antMatchers("/login", "/users/registration", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                        .antMatchers("/users").hasAuthority(Role.ADMIN.name())
+                        .antMatchers("/login", "/registration", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout

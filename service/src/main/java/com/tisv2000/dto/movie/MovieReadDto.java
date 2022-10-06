@@ -3,6 +3,7 @@ package com.tisv2000.dto.movie;
 import com.tisv2000.database.entity.Genre;
 import com.tisv2000.dto.review.ReviewReadDto;
 import lombok.Value;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

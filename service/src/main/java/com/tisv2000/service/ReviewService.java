@@ -38,6 +38,12 @@ public class ReviewService {
                 .toList();
     }
 
+    public List<ReviewReadDto> findAllByUserId(Integer id) {
+        return reviewRepository.findAllByUserId(id).stream()
+                .map(reviewReadMapper::map)
+                .toList();
+    }
+
     public ReviewReadDto create(ReviewCreateEditDto reviewCreateEditDto) {
         return Optional.of(reviewCreateEditDto)
                 .map(reviewCreateEditMapper::map)

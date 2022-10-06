@@ -11,4 +11,7 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     @Query("select r from Review r where r.movie.id = :id")
     List<Review> findAllByMovieId(Integer id);
 
+    @Query("select r from Review r where r.user.id = :id")
+    List<Review> findAllByUserId(Integer id);
+
 }

@@ -33,7 +33,7 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
         entity.setRole(user.getRole());
         entity.setGender(user.getGender());
         entity.setBirthdate(user.getBirthdate());
-        entity.setName(user.getName());
+        entity.setName(user.getUsername());
 
         Optional.ofNullable(user.getRawPassword())
                 .filter(StringUtils::hasText)

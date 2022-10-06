@@ -6,10 +6,31 @@
 </head>
 <body>
 <div th:insert="~{fragment :: header}"></div>
-<h1 style="margin-left: 20px;color: blueviolet">Person details</h1>
-<div style="margin-left: 20px;align-content:center;margin-right: 50px">
-    <span th:text="|Name: ${person.name}|">name</span> <br>
-    <span th:text="|Birthday: ${person.birthday}|">birthday</span> <br>
+<div style="margin-left: 20px;margin-right: 20px;">
+    <h1 style="color: blueviolet">Person details</h1>
+    <div>
+        <b><span>Name: </span></b>
+        <span th:text="${person.name}"></span> <br>
+        <b><span>Birthday: </span></b>
+        <span th:text="${person.birthday}"></span> <br>
+
+        <h2 style="color: blueviolet">Movies where they took part</h2>
+        <div style="align-content:center">
+            <table>
+                <tr th:if="${personMovies!=null and !personMovies.empty}">
+                    <th>Movie</th>
+                    <th>Role</th>
+                </tr>
+                <tr th:each="personMovie: ${personMovies}">
+                    <td>
+                        <a th:href="@{'/movies/' + ${personMovie.movie.id}}" th:text="${personMovie.movie.title}">text</a>
+
+                    </td>
+                    <td th:text="${personMovie.role}">text</td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
 </body>
 </html>

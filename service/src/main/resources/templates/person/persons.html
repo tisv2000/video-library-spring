@@ -6,9 +6,10 @@
 </head>
 
 <body>
-    <div th:insert="~{fragment :: header}"></div>
+<div th:insert="~{fragment :: header}"></div>
+<div style="margin-left: 20px;margin-right: 20px;">
     <div th:insert="~{fragment :: locale}"></div>
-    <h1 th:text="#{person.filterTitle}">Person filter</h1>
+    <h1 th:text="#{person.filterTitle}" style="color: blueviolet">Person filter</h1>
     <form th:action="@{/persons}" method="get">
         <label><span th:text="#{person.name}">Name:</span>
             <input type="text" name="name">
@@ -16,14 +17,12 @@
         <label><span th:text="|#{person.birthday}:|">Birthday:</span>
             <input type="number" name="birthday">
         </label>
-<!--        <label><span th:text="#{person.movie}">Movie:</span>-->
-<!--            <input type="text" name="movie">-->
-<!--        </label> <br>-->
-        <button type="submit" th:text="#{filterButton}">Filter</button>
+        <button type="submit" th:text="#{filterButton}" style="color: blueviolet">Filter</button>
     </form>
 
     <div th:each="person : ${persons}">
         <a th:href="@{'/persons/' + ${person.id }}" th:text="${person.name}">Movie</a>
     </div>
+</div>
 </body>
 </html>

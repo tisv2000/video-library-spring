@@ -49,16 +49,15 @@ public class PersonService {
 
     public Optional<PersonReadDto> findById(Integer id) {
         return personRepository.findById(id)
-                .map(person -> personReadMapper.map(person));
+                .map(personReadMapper::map);
     }
 
     public PersonReadDto create(PersonCreateEditDto personCreateEditDto) {
 //        return personRepository.save(personDto -> personCreateEditMapper.map(personDto))
         return Optional.of(personCreateEditDto)
-                .map(personDto -> personCreateEditMapper.map(personDto))
-                .map(personEntity -> personRepository.save(personEntity))
-                .map(savedEntity -> personReadMapper.map(savedEntity))
-                // бросаем конкретное исключение? На каком уровне это будет определяться?
+                .map(personCreateEditMapper::map)
+                .map(personRepository::save)
+                .map(personReadMapper::map)
                 .orElseThrow();
     }
 
