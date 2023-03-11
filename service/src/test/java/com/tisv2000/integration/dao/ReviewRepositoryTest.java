@@ -1,12 +1,13 @@
 //package com.tisv2000.integration.dao;
 //
-//import com.tisv2000.database.repository.MovieRepository;
-//import com.tisv2000.database.repository.ReviewRepository;
-//import com.tisv2000.database.repository.UserRepository;
 //import com.tisv2000.database.entity.Movie;
 //import com.tisv2000.database.entity.Review;
 //import com.tisv2000.database.entity.User;
+//import com.tisv2000.database.repository.MovieRepository;
+//import com.tisv2000.database.repository.ReviewRepository;
+//import com.tisv2000.database.repository.UserRepository;
 //import lombok.RequiredArgsConstructor;
+//import org.junit.jupiter.api.BeforeAll;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,6 @@
 //import static com.tisv2000.testUtils.TestUtil.getReview;
 //import static com.tisv2000.testUtils.TestUtil.getUser;
 //import static org.assertj.core.api.Assertions.assertThat;
-//import static org.junit.jupiter.api.Assertions.assertNotNull;
 //
 //@RequiredArgsConstructor
 //@SpringBootTest
@@ -25,11 +25,19 @@
 //    private final ReviewRepository reviewRepository;
 //    private final MovieRepository movieRepository;
 //    private final UserRepository userRepository;
+//    private static User user;
+//    private static Movie movie;
+//
+//    @BeforeAll
+//    static void initialize() {
+//        user = getUser();
+//        user.setId(1);
+//        movie = getMovie();
+//        movie.setId(1);
+//    }
 //
 //    @Test
 //    void saveAndFindById() {
-//        User user = getUser();
-//        Movie movie = getMovie();
 //        Review review = getReview(user, movie);
 //
 //        reviewRepository.save(review);
@@ -42,8 +50,6 @@
 //
 //    @Test
 //    void updateTest() {
-//        User user = getUser();
-//        Movie movie = getMovie();
 //        Review review = getReview(user, movie);
 //
 //        userRepository.save(user);
@@ -64,8 +70,6 @@
 //
 //    @Test
 //    void deleteTest() {
-//        User user = getUser();
-//        Movie movie = getMovie();
 //        Review review = getReview(user, movie);
 //
 //        reviewRepository.save(review);

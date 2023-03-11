@@ -4,6 +4,7 @@ import com.tisv2000.database.entity.Genre;
 import com.tisv2000.database.entity.PersonRole;
 import com.tisv2000.dto.movie.MovieCreateEditDto;
 import com.tisv2000.dto.movie.MovieFilterDto;
+import com.tisv2000.dto.movie.PageResponse;
 import com.tisv2000.dto.movieperson.MoviePersonCreateEditDto;
 import com.tisv2000.dto.review.ReviewCreateEditDto;
 import com.tisv2000.service.MoviePersonService;
@@ -11,6 +12,7 @@ import com.tisv2000.service.MovieService;
 import com.tisv2000.service.PersonService;
 import com.tisv2000.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,9 +41,10 @@ public class MovieController {
     @GetMapping
     public String findAllByFilter(Model model,
                                   @ModelAttribute("movieFilterDto") MovieFilterDto movieFilterDto,
-                                  @ModelAttribute("newMovie") MovieCreateEditDto movieCreateEditDto) {
+                                  @ModelAttribute("newMovie") MovieCreateEditDto movieCreateEditDto,
+                                  Pageable pageable) {
         model.addAttribute("movieFilter", movieFilterDto);
-        model.addAttribute("movies", movieService.findAllByFilter(movieFilterDto));
+        model.addAttribute("movies", PageResponse.of(movieService.findAllByFilter(movieFilterDto, pageable )));
         model.addAttribute("newMovie", movieCreateEditDto);
         model.addAttribute("genres", Genre.values());
         return "movie/movies";

@@ -10,6 +10,8 @@ import com.tisv2000.mapper.movie.MovieCreateEditMapper;
 import com.tisv2000.mapper.movie.MovieReadMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -37,17 +39,14 @@ public class MovieService {
                 .toList();
     }
 
-    public List<MovieReadDto> findAllByFilter(MovieFilterDto movieFilterDto) {
+    public Page<MovieReadDto> findAllByFilter(MovieFilterDto movieFilterDto, Pageable pageable) {
         var predicate = QPredicates.builder()
                 .add(movieFilterDto.getTitle(), movie.country::containsIgnoreCase)
                 .add(movieFilterDto.getYear(), movie.year::eq)
                 .add(movieFilterDto.getCountry(), movie.country::containsIgnoreCase)
                 .add(movieFilterDto.getGenre(), movie.genre::eq)
                 .build();
-        return StreamSupport
-                .stream(movieRepository.findAll(predicate).spliterator(), false)
-                .map(movieReadMapper::map)
-                .toList();
+        return movieRepository.findAll(predicate, pageable).map(movieReadMapper::map);
     }
 
     public Optional<MovieReadDto> findById(Integer id) {

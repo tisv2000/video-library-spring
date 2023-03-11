@@ -3,6 +3,7 @@
 //import com.tisv2000.dto.movie.MovieCreateEditDto.Fields;
 //import com.tisv2000.integration.IntegrationTestBase;
 //import lombok.RequiredArgsConstructor;
+//import org.junit.jupiter.api.BeforeAll;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 //import org.springframework.test.web.servlet.MockMvc;
@@ -21,6 +22,11 @@
 //class MovieControllerTest extends IntegrationTestBase {
 //
 //    private final MockMvc mockMvc;
+//
+//    @BeforeAll
+//    void login() {
+//
+//    }
 //
 //    @Test
 //    void findALl() throws Exception {
